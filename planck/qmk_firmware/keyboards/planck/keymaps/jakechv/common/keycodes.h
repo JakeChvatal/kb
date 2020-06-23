@@ -129,9 +129,19 @@ enum keycodes {
 #define LT_LFTX LT  (_SYMREG, KC_LEFT)
 #endif
 
-
 // --- keycode macro groups
 // inspired by https://github.com/noahfrederick/qmk-keymaps/blob/master/user/my.h
 // --- convenience
 #define __________VOLUME_________ KC_MUTE, KC_VOLD, KC_VOLU
 #define __________MEDIA__________ KC_MPRV, KC_MPLY, KC_MNXT
+
+// navigation
+#define __________________NAV1_____________________ _______, KC_HOME, KC_UP,   KC_END,  KC_PGUP
+#define __________________NAV2_____________________ KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_PGDN
+
+// mouse
+#define ______________MOUSE1______________ KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U
+#define ______________MOUSE2______________ KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D
+#define _________MOUSECLK________ KC_BTN1, KC_BTN3, KC_BTN2
+
+#define _____________MODKEYS______________ OS_CTL,  OS_GUI,  OS_ALT,  OS_SFT
