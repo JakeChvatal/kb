@@ -1,8 +1,4 @@
-#pragma once
-#include QMK_KEYBOARD_H
-
-extern keymap_config_t keymap_config;
-
+// ----------------------------------------------------------- Layers
 enum layers {
   _BASE = 0
  ,_SHIFT
@@ -29,6 +25,7 @@ enum layers {
  ,_END_LAYERS
 };
 
+// ----------------------------------------------------------- Custom Keycodes
 enum keycodes {
   BASE = SAFE_RANGE
  ,BASE1
@@ -61,6 +58,7 @@ enum keycodes {
  ,PS_BASE // return to base layer
 };
 
+// ----------------------------------------------------------- Modifier Key Defs
 // modifier keys
 #define GUI_ESC GUI_T(KC_ESC)
 
@@ -80,8 +78,6 @@ enum keycodes {
 #define S_RGHT  S    (KC_RGHT)
 #define S_TAB   S    (KC_TAB)
 #define S_UP    S    (KC_UP)
-
-#include "common/tapdance.h"
 
 // keycodes
 #define ___x___ KC_TRNS

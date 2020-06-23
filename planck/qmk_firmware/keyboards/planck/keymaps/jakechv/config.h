@@ -1,7 +1,6 @@
 #ifndef CONFIG_USER_H
 #define CONFIG_USER_H
-
-#include "../../config.h"
+// #include "../../config.h"
 
 // tap dance key press termination interval
 #define TAPPING_TERM 250
@@ -13,8 +12,8 @@
 // #define MOUSEKEY_MAX_SPEED   7
 // #define MOUSEKEY_WHEEL_DELAY 0
 
-// compile time macro string, see functions/hardware planck script (undefine otherwise)
-//#define PRIVATE_STRING
+// include private macro string defined in private_string.h
+// #define PRIVATE_STRING
 
 // compile time macro string, must be in quotes
 #define PUBLIC_STRING ":%s/arch=(.*)/arch=('any')\n"
@@ -38,8 +37,6 @@
 #define PERMISSIVE_HOLD
 #define IGNORE_MOD_TAP_INTERRUPT
 
-// layout ADNW*, BEAKL*, COLEKA*, QWERTY (default)
-//#define BEAKLSP
-
+// define the keyboard layout used
 #define QWERTY
 #endif

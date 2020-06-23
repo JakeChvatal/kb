@@ -1,4 +1,3 @@
-
 // tap dance keys
 enum tap_dance {
   _CAPS = 0
