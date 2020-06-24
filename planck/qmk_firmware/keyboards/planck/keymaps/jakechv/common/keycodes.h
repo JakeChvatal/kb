@@ -150,9 +150,9 @@ enum keycodes {
 #define _______________FN3________________ KC_F1,   KC_F2,   KC_F3,   KC_F10 
 
 // numpad
-#define ______________NUM1________________ KC_7,    KC_8,    KC_9,    KC_ASTR
-#define ______________NUM2________________ KC_4,    KC_5,    KC_6,    KC_MINS
-#define ______________NUM3________________ KC_1,    KC_2,    KC_3,    KC_PLUS  
+#define ______________________NUM1________________ KC_SLSH, KC_7, KC_8, KC_9, KC_ASTR
+#define ______________________NUM2________________ TD_DOT,  KC_4, KC_5, KC_6, KC_MINS
+#define ______________________NUM3________________ TD_COMM, KC_1, KC_2, KC_3, KC_PLUS  
 
 // text operations
 #define ______________TEXTOPS_____________ UNDO,    CUT,     COPY,    PASTE 

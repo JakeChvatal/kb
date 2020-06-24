@@ -20,7 +20,7 @@
 // thumb key tap-shift() double tap: one shot shift (0) off (1) on
 #define DT_SHIFT 1
 
-// home block shift symbol clustes defined (no overlays required for extended symbols, undefine otherwise)
+// home block shift symbol clusters defined (no overlays required for extended symbols, undefine otherwise)
 #define SHIFT_SYMBOLS
 
 // center column TT assignments (undefine for OSM chords)
@@ -29,6 +29,7 @@
 
 // home row modifiers
 #define HOME_MODS
+
 // fix dual function timing
 #define PERMISSIVE_HOLD
 #define IGNORE_MOD_TAP_INTERRUPT
@@ -37,6 +38,7 @@
  * - QWERTY
  * - SOUL
  * - COLEMAK
+ * are currently supported.
  */
 #define QWERTY
 #endif
