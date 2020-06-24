@@ -14,15 +14,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // #include "colemak.h"
 // #include "beakl.h"
 // ...................................................... Number / Function Keys
-#include "common/number_fkey_layout.h"
+#include "number_fkey_layout.h"
 // ......................................................... Symbol / Navigation
-#include "common/symbol_guifn_layout.h"
+#include "symbol_guifn_layout.h"
 // ............................................................... Toggle Layers
 #ifdef CENTER_TT
-#include "common/toggle_layout.h"
+#include "toggle_layout.h"
 #endif
 // ......................................................... Short Cuts / Adjust
-#include "common/chord_layout.h"
+#include "chord_layout.h"
 };
 
 
