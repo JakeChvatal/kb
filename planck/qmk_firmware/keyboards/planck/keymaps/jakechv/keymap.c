@@ -1,8 +1,8 @@
 #include QMK_KEYBOARD_H
 extern keymap_config_t keymap_config;
 
-#include "common/tapdance.h" 
 #include "common/keycodes.h"
+#include "common/tapdance.h" 
 #include "common/keycode_functions.h" 
 
 // vararg macro -- delays macro expansion for home rows

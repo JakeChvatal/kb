@@ -1,6 +1,5 @@
 #ifndef CONFIG_USER_H
 #define CONFIG_USER_H
-// #include "../../config.h"
 
 // tap dance key press termination interval
 #define TAPPING_TERM 250
@@ -21,9 +20,6 @@
 // thumb key tap-shift() double tap: one shot shift (0) off (1) on
 #define DT_SHIFT 1
 
-// number layer 0 position KEYPAD_0, THUMB_0
-#define THUMB_0
-
 // home block shift symbol clustes defined (no overlays required for extended symbols, undefine otherwise)
 #define SHIFT_SYMBOLS
 
@@ -37,6 +33,10 @@
 #define PERMISSIVE_HOLD
 #define IGNORE_MOD_TAP_INTERRUPT
 
-// define the keyboard layout used
+/* define the keyboard layout to be used:
+ * - QWERTY
+ * - SOUL
+ * - COLEMAK
+ */
 #define QWERTY
 #endif

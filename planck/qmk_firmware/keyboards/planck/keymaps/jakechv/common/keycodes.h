@@ -119,11 +119,8 @@ enum keycodes {
 #define OS_SGUI OSM (MOD_LGUI | MOD_LSFT)
 
 // unclear yet
-#ifdef THUMB_0
 #define LT_EQL  LT  (_ADJUST, KC_EQL)
-#else
 #define LT_0    LT  (_ADJUST, KC_0)
-#endif
 #ifndef SHIFT_SYMBOLS
 #define LT_A    LT  (_NUMSYM, KC_A)
 #define LT_LFTX LT  (_SYMREG, KC_LEFT)
