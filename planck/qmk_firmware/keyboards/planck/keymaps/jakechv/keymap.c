@@ -10,9 +10,7 @@ extern keymap_config_t keymap_config;
 
 // ........................................................ Default Alpha Layout
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-#include "qwerty.h"
-// #include "colemak.h"
-// #include "beakl.h"
+#include "default_layout.h"
 // ...................................................... Number / Function Keys
 #include "number_fkey_layout.h"
 // ......................................................... Symbol / Navigation
