@@ -21,7 +21,6 @@ enum layers {
 #endif
  ,_EDIT
  ,_QWERTY
- ,_ADJUST
  ,_END_LAYERS
 };
 
@@ -44,7 +43,6 @@ enum keycodes {
  ,SL_LEFT   // pseudo LT   (_MOUSE, S(KC_LEFT))           for shifted key-codes, see process_record_user()
  // 
  ,SP_DEL    // pseudo LT   (_MOUSE, KC_DEL)               for shifted key-codes, see process_record_user()
- ,SL_PIPE   // pseudo LT   (_ADJUST, S(KC_BSLS))          for shifted key-codes, see process_record_user()
  ,SL_TAB    // pseudo LT   (_FNCKEY, S(KC_TAB))           for shifted key-codes, see process_record_user()
 #ifdef CENTER_TT
  ,TT_ESC
@@ -100,14 +98,14 @@ enum keycodes {
 #define LT_BSLS LT  (_MOUSE,  KC_BSLS)      // see process_record_user() for extended handling
 #define LT_BSPC LT  (_EDIT,   KC_BSPC)
 #define SP_LEFT LT  (_EDIT,   KC_LEFT)
-#define LT_ESC  LT  (_NUMBER, KC_ESC)
-#define LT_LEFT LT  (_SYMBOL, KC_LEFT)      // see process_record_user() for extended handling
+#define LT_LEFT LT  (_EDIT, KC_LEFT)      // see process_record_user() for extended handling
+#define LT_TAB  LT  (_NUMBER, KC_TAB)
+#define LT_ENT  LT  (_SYMBOL,   KC_ENT)
 #define SP_BSPC LT  (_SYMBOL, KC_BSPC)      // see process_record_user() for extended handling
-#define LT_TAB  LT  (_FNCKEY, KC_TAB)
+#define LT_ESC  LT  (_FNCKEY, KC_ESC)
 #define LT_INS  LT  (_FNCKEY, KC_INS)
 #define LT_ALTG LT  (_FNCKEY, KC_RALT)
 
-#define ADJUST  MO  (_ADJUST) 
 #define OS_ALT  OSM (MOD_LALT)
 #define OS_CTL  OSM (MOD_LCTL)
 #define OS_GUI  OSM (MOD_LGUI)
@@ -119,8 +117,6 @@ enum keycodes {
 #define OS_SGUI OSM (MOD_LGUI | MOD_LSFT)
 
 // unclear yet
-#define LT_EQL  LT  (_ADJUST, KC_EQL)
-#define LT_0    LT  (_ADJUST, KC_0)
 #ifndef SHIFT_SYMBOLS
 #define LT_A    LT  (_NUMSYM, KC_A)
 #define LT_LFTX LT  (_SYMREG, KC_LEFT)

@@ -21,7 +21,7 @@
 #define DT_SHIFT 1
 
 // home block shift symbol clusters defined (no overlays required for extended symbols, undefine otherwise)
-#define SHIFT_SYMBOLS
+// #define SHIFT_SYMBOLS
 
 // center column TT assignments (undefine for OSM chords)
 #define CENTER_TT

@@ -13,7 +13,7 @@
 #define _________________KEYS_R3_________________ KC_N, KC_M, KC_COMM, KC_DOT, TD_QUOT
 
 #define ____________KEYS_CAPS_R1_________________ S(KC_Y), S(KC_U), S(KC_I), S(KC_O), S(KC_P)
-#define ____________KEYS_CAPS_R2_________________ S(KC_H), S(KC_J), S(KC_K), S(KC_L), KC_SCLN
+#define ____________KEYS_CAPS_R2_________________ S(KC_H), S(KC_J), S(KC_K), S(KC_L), KC_COLN
 #define ____________KEYS_CAPS_R3_________________ S(KC_N), S(KC_M), KC_COMM, KC_DOT,  TD_QUOT
 
 #define ____________KEYS_CAPS_ShiftR3____________ S(KC_N), S(KC_M), KC_COMM, KC_DOT,  TD_QUOT

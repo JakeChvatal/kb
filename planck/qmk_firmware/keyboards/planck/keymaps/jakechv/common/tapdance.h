@@ -22,6 +22,7 @@ enum tap_dance {
  ,_SEND
  ,_SPC
  ,_TILD
+ ,_BSPC
 };
 
 #define TD_CAPS TD(_CAPS)
@@ -46,3 +47,4 @@ enum tap_dance {
 #define TD_SEND TD(_SEND)                   // config.h defined macro string
 #define TD_SPC  TD(_SPC)                    // see process_record_user() for extended handling of Spc
 #define TD_TILD TD(_TILD)
+#define TD_BSPC TD(_BSPC)

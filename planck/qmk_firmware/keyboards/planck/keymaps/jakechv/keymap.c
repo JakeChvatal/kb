@@ -144,6 +144,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     case TD_ENT:
       tap_layer(record, _RSHIFT);
       // LT (_RSHIFT, KC_ENT) emulation, see tap dance enter
+      //
+    case TD_BSPC:
+      tap_layer(record, _RSHIFT);
+      // LT (_RSHIFT, KC_BSPC) emulation, see tap dance enter
       break;
     case TD_SPC:
       tap_layer(record, _LSHIFT);

@@ -161,6 +161,18 @@ void enter_reset(qk_tap_dance_state_t *state, void *user_data)
   tap_reset(KC_ENT, _RSHIFT);
 }
 
+
+// augment pseudo LT (_RSHIFT, KC_ENT) handling below for rapid <ENTER><SHIFT> sequences
+void bspc(qk_tap_dance_state_t *state, void *user_data)
+{
+  tap_shift(state, KC_BSPC, _RSHIFT);
+}
+
+void bspc_reset(qk_tap_dance_state_t *state, void *user_data)
+{
+  tap_reset(KC_BSPC, _RSHIFT);
+}
+
 // augment pseudo LT (_LSHIFT, KC_SPC) handling below for rapid <SPACE><SHIFT> sequences
 void space(qk_tap_dance_state_t *state, void *user_data)
 {
@@ -452,6 +464,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
  ,[_DOT]  = ACTION_TAP_DANCE_FN         (dot)
  ,[_DQOT] = ACTION_TAP_DANCE_FN         (doublequote)
  ,[_ENT]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, enter, enter_reset)
+ ,[_BSPC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, bspc, bspc_reset)
  ,[_EQL]  = ACTION_TAP_DANCE_FN         (eql)
  ,[_GRV]  = ACTION_TAP_DANCE_FN         (grave)
  ,[_GT]   = ACTION_TAP_DANCE_FN         (greater)
