@@ -1,16 +1,14 @@
 #include "macros.h"
 
 // .......................................................... Keycode Primitives
-// register simple key press
-void tap_key(uint16_t keycode)
-{
+// quickly press key
+void tap_key(uint16_t keycode) {
   register_code  (keycode);
   unregister_code(keycode);
 }
 
 // press shift over code
-void shift_key(uint16_t keycode)
-{
+void shift_key(uint16_t keycode) {
   register_code  (KC_LSFT);
   tap_key        (keycode);
   unregister_code(KC_LSFT);
@@ -23,10 +21,9 @@ static uint16_t key_timer = 0;
 
 // key press for thumb_layer() and lt_shift() macros
 // if time left, shift, else tap
-bool key_press(uint8_t shift, uint16_t keycode)
-{
+bool key_press(uint8_t shift, uint16_t keycode) {
   if (keycode) {
-    if (timer_elapsed(key_timer) < TAPPING_TERM) {
+    if (KEY_TAP) {
       if (shift) {
         shift_key(keycode);
       }
@@ -40,9 +37,8 @@ bool key_press(uint8_t shift, uint16_t keycode)
 }
 
 // ALT_T, CTL_T, GUI_T, SFT_T for shifted keycodes
-void mt_shift(keyrecord_t *record, uint16_t modifier, uint16_t modifier2, uint16_t keycode)
-{
-  if (record->event.pressed) {
+void mt_shift(RECORD, uint16_t modifier, uint16_t modifier2, uint16_t keycode) {
+  if (KEY_DOWN) {
     key_timer = timer_read();
     register_code(modifier);
     if (modifier2) {
@@ -63,13 +59,12 @@ void mt_shift(keyrecord_t *record, uint16_t modifier, uint16_t modifier2, uint16
 
 // ................................................................... Mod Masks
 
-// tap dance persistant mods, see process_record_user()
+// tap dance persistent mods, see process_record_user()
 // keyboard_report->mods (?) appears to be cleared by tap dance
 static uint8_t mods = 0;
 
-void tap_mods(keyrecord_t *record, uint16_t keycode)
-{
-  if (record->event.pressed) {
+void tap_mods(RECORD, uint16_t keycode) {
+  if (KEY_DOWN) {
     mods |= MOD_BIT(keycode);
   }
   else {
@@ -78,8 +73,7 @@ void tap_mods(keyrecord_t *record, uint16_t keycode)
 }
 
 // (un)register modifiers
-void modifier(void (*f)(uint8_t))
-{
+void modifier(void (*f)(uint8_t)) {
   if (mods & MOD_BIT(KC_LCTL)) {
     (*f)(KC_LCTL);
   }
@@ -96,8 +90,7 @@ void modifier(void (*f)(uint8_t))
 static uint8_t dt_shift = 0;
 
 // tap key, then oneshot off to shift layer
-void double_shift(uint16_t keycode, uint8_t layer)
-{
+void double_shift(uint16_t keycode, uint8_t layer) {
   tap_key (keycode);
   if (DT_SHIFT) {
     layer_on         (_SHIFT);
@@ -110,8 +103,7 @@ void double_shift(uint16_t keycode, uint8_t layer)
 }
 
 // tap dance LT (LAYER, KEY) emulation with <KEY><DOWN> -> <KEY><SHIFT> and auto-repeat extensions!
-void tap_shift(qk_tap_dance_state_t *state, uint16_t keycode, uint8_t layer)
-{
+void tap_shift(qk_tap_dance_state_t *state, uint16_t keycode, uint8_t layer) {
   // double tap plus down
   if (state->count > 2) {
     // double enter shift
@@ -140,8 +132,8 @@ void tap_shift(qk_tap_dance_state_t *state, uint16_t keycode, uint8_t layer)
   }
 }
 
-void tap_reset(uint16_t keycode, uint8_t layer)
-{
+// reset tapping
+void tap_reset(uint16_t keycode, uint8_t layer) {
   unregister_code(keycode);
   if (DT_SHIFT && dt_shift) {
     clear_oneshot_layer_state(ONESHOT_PRESSED);
@@ -153,43 +145,39 @@ void tap_reset(uint16_t keycode, uint8_t layer)
 }
 
 // augment pseudo LT (_RSHIFT, KC_ENT) handling below for rapid <ENTER><SHIFT> sequences
-void enter(qk_tap_dance_state_t *state, void *user_data)
-{
+void enter(qk_tap_dance_state_t *state, void *user_data) {
   tap_shift(state, KC_ENT, _RSHIFT);
 }
 
-void enter_reset(qk_tap_dance_state_t *state, void *user_data)
-{
+// reset enter
+void enter_reset(qk_tap_dance_state_t *state, void *user_data) {
   tap_reset(KC_ENT, _RSHIFT);
 }
 
 
 // augment pseudo LT (_RSHIFT, KC_ENT) handling below for rapid <ENTER><SHIFT> sequences
-void bspc(qk_tap_dance_state_t *state, void *user_data)
-{
+void bspc(qk_tap_dance_state_t *state, void *user_data) {
   tap_shift(state, KC_BSPC, _RSHIFT);
 }
 
-void bspc_reset(qk_tap_dance_state_t *state, void *user_data)
-{
+// reset bspc
+void bspc_reset(qk_tap_dance_state_t *state, void *user_data) {
   tap_reset(KC_BSPC, _RSHIFT);
 }
 
 // augment pseudo LT (_LSHIFT, KC_SPC) handling below for rapid <SPACE><SHIFT> sequences
-void space(qk_tap_dance_state_t *state, void *user_data)
-{
+void space(qk_tap_dance_state_t *state, void *user_data) {
   tap_shift(state, KC_SPC, _LSHIFT);
 }
 
-void space_reset(qk_tap_dance_state_t *state, void *user_data)
-{
+// reset spc
+void space_reset(qk_tap_dance_state_t *state, void *user_data) {
   tap_reset(KC_SPC, _LSHIFT);
 }
 
 // ......................................................... Triple Dance Insert
-
-void double_max(uint8_t count, uint8_t shift, uint16_t keycode)
-{
+// double tap if key pressed multiple times
+void double_max(uint8_t count, uint8_t shift, uint16_t keycode) {
   if (shift) {
     shift_key(keycode);
     if (count > 1) {
@@ -204,23 +192,21 @@ void double_max(uint8_t count, uint8_t shift, uint16_t keycode)
   }
 }
 
-void colon(qk_tap_dance_state_t *state, void *user_data)
-{
-  if (state->count > 2) {
+void colon(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count > 2) { // triple tap colon: _;;_
     tap_key  (KC_SPC);
     shift_key(KC_SCLN);
     shift_key(KC_SCLN);
     tap_key  (KC_SPC);
   }
-  else {
+  else { // shift scln 
     double_max(state->count, SHIFT, KC_SCLN);
   }
   reset_tap_dance(state);
 }
 
-void eql(qk_tap_dance_state_t *state, void *user_data)
-{
-  if (state->count > 2) {
+void eql(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count > 2) { // triple tap eql: _/=_
     tap_key(KC_SPC);
     tap_key(KC_SLSH);
     tap_key(KC_EQL);
@@ -232,9 +218,8 @@ void eql(qk_tap_dance_state_t *state, void *user_data)
   reset_tap_dance(state);
 }
 
-void greater(qk_tap_dance_state_t *state, void *user_data)
-{
-  if (state->count > 2) {
+void greater(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count > 2) { // triple tap dot: _-._ (?? TODO)
     tap_key  (KC_SPC);
     tap_key  (KC_MINS);
     shift_key(KC_DOT);
@@ -246,9 +231,8 @@ void greater(qk_tap_dance_state_t *state, void *user_data)
   reset_tap_dance(state);
 }
 
-void lesser(qk_tap_dance_state_t *state, void *user_data)
-{
-  if (state->count > 2) {
+void lesser(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count > 2) { // triple tap comm: _,-_
     tap_key  (KC_SPC);
     shift_key(KC_COMM);
     tap_key  (KC_MINS);
@@ -260,25 +244,20 @@ void lesser(qk_tap_dance_state_t *state, void *user_data)
   reset_tap_dance(state);
 }
 
-void tilde(qk_tap_dance_state_t *state, void *user_data)
-{
-  // double tap plus down: repeating keycode
-  if (state->count > 2) {
+void tilde(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count > 2) { // triple tap tilde: ~ TODO
     register_code(KC_LSFT);
     register_code(KC_GRV);
   }
-  // tap: keycode
-  else {
+  else {  // tap: keycode
     shift_key(KC_GRV);
-    // double tap: unix home directory
-    if (state->count > 1) {
+    if (state->count > 1) { // double tap: ~/
       tap_key(KC_SLSH);
     }
   }
 }
 
-void tilde_reset(qk_tap_dance_state_t *state, void *user_data)
-{
+void tilde_reset(qk_tap_dance_state_t *state, void *user_data) {
   unregister_code(KC_GRV);
   unregister_code(KC_LSFT);
 }
@@ -291,13 +270,13 @@ void tilde_reset(qk_tap_dance_state_t *state, void *user_data)
 #define S_DOUBLE 2
 #define S_ALWAYS S_SINGLE | S_DOUBLE
 
-void symbol_pair(uint8_t shift, uint16_t left, uint16_t right)
-{
-  if (shift & S_DOUBLE) {
+// press a pair of symbols together
+void symbol_pair(uint8_t shift, uint16_t left, uint16_t right) {
+  if (shift & S_DOUBLE) {  // if shift both, apply shift
     shift_key(left);
     shift_key(right);
   }
-  else {
+  else { // else, press both unshifted
     tap_key(left);
     tap_key(right);
   }
@@ -306,25 +285,22 @@ void symbol_pair(uint8_t shift, uint16_t left, uint16_t right)
 #define CLOSE 1
 
 // tap dance symbol pairs
-void tap_pair(qk_tap_dance_state_t *state, uint8_t shift, uint16_t left, uint16_t right, uint16_t modifier, uint8_t close)
-{
+void tap_pair(qk_tap_dance_state_t *state, uint8_t shift, uint16_t left, uint16_t right, uint16_t modifier, uint8_t close) {
   // triple tap: left right with cursor between symbol pair a la vim :-)
-  if (state->count > 2) {
+  if (state->count > 2) { // triple tap: left, right, then start in middle (_)
     symbol_pair(shift, left, right);
     tap_key    (KC_LEFT);
   }
   // double tap: left right
-  else if (state->count > 1) {
+  else if (state->count > 1) { // double tap: left and right ()_
     symbol_pair(shift, left, right);
   }
-  // down: modifier
-  else if (state->pressed) {
+  else if (state->pressed) { // down: modifier
     if (modifier) {
       register_code(modifier);
     }
   }
-  // tap: left (close: right)
-  else {
+  else { // tap: left (close: right)
     if (shift & S_SINGLE) {
       shift_key(close ? right : left);
     }
@@ -337,70 +313,59 @@ void tap_pair(qk_tap_dance_state_t *state, uint8_t shift, uint16_t left, uint16_
   }
 }
 
-void doublequote(qk_tap_dance_state_t *state, void *user_data)
-{
+void doublequote(qk_tap_dance_state_t *state, void *user_data) { // close double quote
   tap_pair(state, S_ALWAYS, KC_QUOT, KC_QUOT, 0, 0);
 }
 
-void grave(qk_tap_dance_state_t *state, void *user_data)
-{
+void grave(qk_tap_dance_state_t *state, void *user_data) { // close back quote
   tap_pair(state, S_NEVER, KC_GRV, KC_GRV, 0, 0);
 }
 
-void lbrace(qk_tap_dance_state_t *state, void *user_data)
-{
+void lbrace(qk_tap_dance_state_t *state, void *user_data) { // close brace
   tap_pair(state, S_NEVER, KC_LBRC, KC_RBRC, 0, 0);
 }
 
-void lcurly(qk_tap_dance_state_t *state, void *user_data)
-{
+void lcurly(qk_tap_dance_state_t *state, void *user_data) { // close curly brace
   tap_pair(state, S_ALWAYS, KC_LBRC, KC_RBRC, 0, 0);
 }
 
-void lparen(qk_tap_dance_state_t *state, void *user_data)
-{
+void lparen(qk_tap_dance_state_t *state, void *user_data) { // close parens 
   tap_pair(state, S_ALWAYS, KC_9, KC_0, KC_LCTL, 0);
 }
 
-void lparen_reset(qk_tap_dance_state_t *state, void *user_data)
-{
+void lparen_reset(qk_tap_dance_state_t *state, void *user_data) { // reset parens
   unregister_code(KC_LCTL);
 }
 
-void quote(qk_tap_dance_state_t *state, void *user_data)
-{
+void quote(qk_tap_dance_state_t *state, void *user_data) { // close quotes
   tap_pair(state, S_NEVER, KC_QUOT, KC_QUOT, 0, 0);
 }
 
-void rangle(qk_tap_dance_state_t *state, void *user_data)
-{
+
+// TODO why are these basically duplicated?
+void rangle(qk_tap_dance_state_t *state, void *user_data) {  // close angle brackets
   tap_pair(state, S_ALWAYS, KC_COMM, KC_DOT, 0, CLOSE);
 }
 
-void rbrace(qk_tap_dance_state_t *state, void *user_data)
-{
+void rbrace(qk_tap_dance_state_t *state, void *user_data) { // close braces
   tap_pair(state, S_NEVER, KC_LBRC, KC_RBRC, 0, CLOSE);
 }
 
-void rcurly(qk_tap_dance_state_t *state, void *user_data)
-{
+void rcurly(qk_tap_dance_state_t *state, void *user_data) { // close curly braces
   tap_pair(state, S_ALWAYS, KC_LBRC, KC_RBRC, 0, CLOSE);
 }
 
-void rparen(qk_tap_dance_state_t *state, void *user_data)
-{
+void rparen(qk_tap_dance_state_t *state, void *user_data) {
   tap_pair(state, S_ALWAYS, KC_9, KC_0, 0, CLOSE);
 }
 
-void rparen_reset(qk_tap_dance_state_t *state, void *user_data)
-{
+void rparen_reset(qk_tap_dance_state_t *state, void *user_data) {
   unregister_code(KC_LCTL);
 }
 
 // ............................................................ Tap Dance Insert
 
-void comma(qk_tap_dance_state_t *state, void *user_data)
-{
+void comma(qk_tap_dance_state_t *state, void *user_data) { // double tap comma for spc
   tap_key(KC_COMM);
   if (state->count > 1) {
     tap_key(KC_SPC);
@@ -408,8 +373,7 @@ void comma(qk_tap_dance_state_t *state, void *user_data)
   reset_tap_dance(state);
 }
 
-void dot(qk_tap_dance_state_t *state, void *user_data)
-{
+void dot(qk_tap_dance_state_t *state, void *user_data) { // double tap dot for colon
   if (state->count > 1) {
     shift_key(KC_COLN);
   }
@@ -420,8 +384,7 @@ void dot(qk_tap_dance_state_t *state, void *user_data)
 }
 
 // compile time macro string, see functions/hardware planck script
-void private(qk_tap_dance_state_t *state, void *user_data)
-{
+void private(qk_tap_dance_state_t *state, void *user_data) { // double tap for private string
   if (state->count > 1) {
 #ifdef PRIVATE_STRING
 #include "private_string.h"
@@ -431,8 +394,7 @@ void private(qk_tap_dance_state_t *state, void *user_data)
 }
 
 // config.h defined string
-void send(qk_tap_dance_state_t *state, void *user_data)
-{
+void send(qk_tap_dance_state_t *state, void *user_data) { // double tap for public string
   if (state->count > 1) {
     SEND_STRING(PUBLIC_STRING);
   }
@@ -441,8 +403,7 @@ void send(qk_tap_dance_state_t *state, void *user_data)
 
 // .......................................................... Tap Dance One Shot
 
-void caps(qk_tap_dance_state_t *state, void *user_data)
-{
+void caps(qk_tap_dance_state_t *state, void *user_data) { // double tap caps for perm caps
   if (state->count > 1) {
     tap_key(KC_CAPS);
   }
@@ -452,8 +413,7 @@ void caps(qk_tap_dance_state_t *state, void *user_data)
   }
 }
 
-void caps_reset(qk_tap_dance_state_t *state, void *user_data)
-{
+void caps_reset(qk_tap_dance_state_t *state, void *user_data) { // revoke clock
   unregister_code(KC_LSFT);
 }
 
@@ -499,11 +459,9 @@ static uint8_t thumb = 0;
 #define THUMBS_DOWN _MOUSE                  // layer
 
 static uint8_t overlayer = 0;
-
 // left right thumb layer combinations
-void thumb_layer(keyrecord_t *record, uint8_t side, uint8_t shift, uint16_t keycode, uint8_t thumb_dn_layer, uint8_t thumb_up_layer)
-{
-  if (record->event.pressed) {
+void thumb_layer(RECORD, uint8_t side, uint8_t shift, uint16_t keycode, uint8_t thumb_dn_layer, uint8_t thumb_up_layer) {
+  if (KEY_DOWN) {
     // layer_on via tap_layer(), see process_record_user()
     key_timer = timer_read();
     thumb     = thumb | side;
@@ -528,38 +486,10 @@ void thumb_layer(keyrecord_t *record, uint8_t side, uint8_t shift, uint16_t keyc
     key_timer = 0;
   }
 }
-
-// #ifdef STENO_ENABLE
-// // LT for steno keycode
-// void stn_layer(keyrecord_t *record, uint16_t keycode, uint8_t layer)
-// {
-//   if (record->event.pressed) {
-//     key_timer = timer_read();
-//     if (keycode) {
-//       process_steno(keycode, record);
-//     }
-//     layer_on(layer);
-//   }
-//   else {
-//     layer_off(layer);
-//     if (keycode) {
-//       if (timer_elapsed(key_timer) < TAPPING_TERM) {
-//         process_steno(keycode, record);
-//       }
-//       else {
-//         // clear pressed state (request push of updated) process_steno.c and .h
-//         // steno_clear_state();
-//       }
-//     }
-//     key_timer = 0;
-//   }
-// }
-// #endif
-
+ 
 // LT for S(keycode)
-void lt_shift(keyrecord_t *record, uint16_t keycode, uint8_t layer)
-{
-  if (record->event.pressed) {
+void lt_shift(RECORD, uint16_t keycode, uint8_t layer) { // toggle shift layer
+  if (KEY_DOWN) {
     key_timer = timer_read();
     layer_on(layer);
   }
@@ -574,9 +504,8 @@ void lt_shift(keyrecord_t *record, uint16_t keycode, uint8_t layer)
 
 // set layer asap to overcome macro latency errors, notably tap dance and LT usage
 // this routine inexplicably (?) sets layer_on() faster than can be done in thumb_layer()
-void tap_layer(keyrecord_t *record, uint8_t layer)
-{
-  if (record->event.pressed) {
+void tap_layer(RECORD, uint8_t layer) { // set layer tap right away
+  if (KEY_DOWN) {
     layer_on(layer);
   }
   else {
@@ -585,8 +514,7 @@ void tap_layer(keyrecord_t *record, uint8_t layer)
 }
 
 // ..................................................................... Keymaps
-void clear_layers(void)
-{
+void clear_layers(void) {
   uint8_t layer;
   for (layer = 0; layer < _END_LAYERS; layer++) {
     layer_off(layer);
@@ -596,8 +524,7 @@ void clear_layers(void)
 #ifdef CENTER_TT
 static uint16_t tt_keycode = 0;             // current TT keycode
 
-void clear_tt(void)
-{
+void clear_tt(void) {
   if (tt_keycode == KC_CAPS) {
     tap_key(KC_CAPS);                       // clear capslock
   }
@@ -607,8 +534,8 @@ void clear_tt(void)
 }
 #endif
 
-void base_layer(void)
-{
+// reset layers to base layer
+void base_layer(void) {
   clear_layers();
   set_single_persistent_default_layer(_BASE);
 }
