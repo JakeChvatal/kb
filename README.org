@@ -1,0 +1,17 @@
+#+title: Configuration for Keyboards
+
+These configuration files are managed with GNU Stow;
+to build them, clone qmk firmware at the same top level directory,
+cd into this repo, then run ```stow planck``` for the planck keyboard.
+
+This configuration takes heavy inspiration from many of the existing
+qmk keymappings, most notably [[https://thedarnedestthing.com][sdothum's work]].
+
+For now, the only keyboard supported is the OLKB Plank,
+but there are plans to support other keyboards in the future, such as the
+Kyria and the Corne keyboards (which I have yet to build).
+
+As such, keymappings are factored into modules (macro groups),
+and these modules are included in keymappings for specific keyboards.
+
+Better documentation is coming soon, pending a finalization of my layout.

@@ -15,7 +15,7 @@
 // #define PRIVATE_STRING
 
 // compile time macro string, must be in quotes
-#define PUBLIC_STRING ":%s/arch=(.*)/arch=('any')\n"
+#define PUBLIC_STRING "jakechvatal@gmail.com"
 
 // thumb key tap-shift() double tap: one shot shift (0) off (1) on
 #define DT_SHIFT 1
