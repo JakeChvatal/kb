@@ -47,18 +47,79 @@ enum keycodes {
 #ifdef CENTER_TT
  ,TT_ESC
 #endif
- /*
- ,LT_C    = LT (_NUMBER, KC_C)
- ,LT_V    = LT (_FNCKEY, KC_V)
- ,LT_N    = LT (_EDIT,   KC_N)
- ,LT_M    = LT (_SYMBOL, KC_M)
- */
+ ,SL_PIPE
+#ifdef ROLLOVER
+#ifdef QWERTY
+ ,HOME_A  // pseudo GUI_T(KC_A)
+ ,HOME_S  // pseudo CTL_T(KC_S)
+ ,HOME_D  // pseudo ALT_T(KC_D)
+ ,HOME_F  // pseudo SFT_T(KC_F)
+ ,HOME_J  // pseudo SFT_T(KC_J)
+ ,HOME_K  // pseudo ALT_T(KC_K)
+ ,HOME_L  // pseudo CTL_T(KC_L)
+ ,HOME_SC // pseudo GUI_T(KC_SCLN)
+#endif
+#ifdef COLEMAK
+ ,HOME_A
+ ,HOME_R
+ ,HOME_S
+ ,HOME_T
+ ,HOME_N
+ ,HOME_E
+ ,HOME_I
+ ,HOME_O
+#endif
+#ifdef SOUL
+ ,HOME_A
+ ,HOME_R
+ ,HOME_S
+ ,HOME_T
+ ,HOME_N
+ ,HOME_E
+ ,HOME_I
+ ,HOME_O
+#endif
+#endif
  ,PS_BASE // return to base layer
 };
 
 // ----------------------------------------------------------- Modifier Key Defs
 // modifier keys
 #define GUI_ESC GUI_T(KC_ESC)
+
+// rollover definitions
+#ifndef ROLLOVER
+#ifdef QWERTY
+#define HOME_A KC_A 
+#define HOME_S KC_S
+#define HOME_D KC_D
+#define HOME_F KC_F
+#define HOME_J KC_J 
+#define HOME_K KC_K
+#define HOME_L KC_L
+#define HOME_SC KC_SCLN
+#endif
+#ifdef COLEMAK
+#define HOME_A KC_A
+#define HOME_R KC_R
+#define HOME_S KC_S
+#define HOME_T KC_T
+#define HOME_N KC_N
+#define HOME_E KC_E
+#define HOME_I KC_I
+#define HOME_O KC_O
+#endif
+#ifdef SOUL
+#define HOME_A KC_A
+#define HOME_R KC_R
+#define HOME_S KC_S
+#define HOME_T KC_T
+#define HOME_N KC_N
+#define HOME_E KC_E
+#define HOME_I KC_I
+#define HOME_O KC_O
+#endif
+#endif
 
 // hold for the modifier, press for the inner key
 #define AT_B    ALT_T(KC_B)
@@ -116,16 +177,19 @@ enum keycodes {
 #define OS_SALT OSM (MOD_LALT | MOD_LSFT)
 #define OS_SGUI OSM (MOD_LGUI | MOD_LSFT)
 
-// unclear yet
-#ifndef SHIFT_SYMBOLS
-#define LT_A    LT  (_NUMSYM, KC_A)
-#define LT_LFTX LT  (_SYMREG, KC_LEFT)
-#endif
+
 
 // --- keycode macro groups
 // inspired by https://github.com/noahfrederick/qmk-keymaps/blob/master/user/my.h
 // --- convenience
+// .--------------------.
+// | Mute |VolDwn|VolUp |
+// `--------------------'
 #define __________VOLUME_________ KC_MUTE, KC_VOLD, KC_VOLU
+
+// .--------------------.
+// |MPrev |MPlay |MNext |
+// `--------------------'
 #define __________MEDIA__________ KC_MPRV, KC_MPLY, KC_MNXT
 
 // navigation
@@ -133,22 +197,78 @@ enum keycodes {
 #define __________________NAV2_____________________ KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_PGDN
 
 // mouse
+// .----------------------------------.
+// |      |ScrlL |  ^   |ScrlR |ScrlUp|
+// |----------------------------------|
+// |      |  <-  |  ;   |  ->  |ScrlDw|
+// |----------------------------------|
+// |      |      |      |      |      |
+// '----------------------------------'
 #define ______________MOUSE1______________ KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U
 #define ______________MOUSE2______________ KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D
-#define _________MOUSECLK________ KC_BTN1, KC_BTN3, KC_BTN2
+#define ______________MOUSE3______________ _______, _______, _______, _______
+
+// .--------------------.
+// | LClk | CClk | RClk |
+// `--------------------'
+#define _________MOUSECLK________ KC_BTN1, KC_BTN3, KC_BTN2 
 
 // modifiers
-#define _____________MODKEYS______________ OS_CTL,  OS_GUI,  OS_ALT,  OS_SFT
+// .---------------------------.
+// | Ctrl |  GUI |  Alt | Shift|
+// `---------------------------'
+#define _____________MODKEYS______________ OS_CTL, OS_GUI, OS_ALT, OS_SFT
 
 // function keys
-#define _______________FN1________________ KC_F7,   KC_F8,   KC_F9,   KC_F12
-#define _______________FN2________________ KC_F4,   KC_F5,   KC_F6,   KC_F11 
-#define _______________FN3________________ KC_F1,   KC_F2,   KC_F3,   KC_F10 
+// .----------------------------------.
+// |      |  F7  |  F8  |  F9  |  F12 |
+// |----------------------------------|
+// |      |  F4  |  F5  |  F6  |  F11 |
+// |----------------------------------|
+// |      |  F1  |  F2  |  F3  |  F10 |
+// '----------------------------------'
+#define _______________FN1________________ KC_F7, KC_F8, KC_F9, KC_F12
+#define _______________FN2________________ KC_F4, KC_F5, KC_F6, KC_F11 
+#define _______________FN3________________ KC_F1, KC_F2, KC_F3, KC_F10 
 
 // numpad
+// remember to define the location of KC_EQLS and KC_0 on the same layer
+// .----------------------------------.
+// |   /  |   7  |   8  |   9  |   *  |
+// |----------------------------------|
+// |   .  |   4  |   5  |   6  |   -  |
+// |----------------------------------|
+// |   ,  |   1  |   2  |   3  |   +  |
+// `----------------------------------'
 #define ______________________NUM1________________ KC_SLSH, KC_7, KC_8, KC_9, KC_ASTR
 #define ______________________NUM2________________ TD_DOT,  KC_4, KC_5, KC_6, KC_MINS
 #define ______________________NUM3________________ TD_COMM, KC_1, KC_2, KC_3, KC_PLUS  
 
+
+// brackets layer
+// backslash and del should probably be on this layer
+// .----------------------------------.
+// |  *   |  {   |   ^  |   }  |      |
+// |----------------------------------|
+// |  ?   |  (   |   $  |   )  |      |
+// |----------------------------------|
+// |  |   |  [   |   #  |   ]  |      |
+// '----------------------------------'
+#define ____________BRACKETS1_____________ KC_ASTR, TD_LCBR, KC_CIRC, KC_RCBR
+#define ____________BRACKETS2_____________ KC_QUES, TD_LPRN, KC_DLR,  KC_RPRN
+#define ____________BRACKETS3_____________ KC_PIPE, TD_LBRC, KC_HASH, KC_RBRC
+
+// regex layer
+// .----------------------------------.
+// |      |  .   |  *   |   ^  |   |  |
+// |----------------------------------|
+// |      |  <   |  %   |   >  |   ?  |
+// |----------------------------------|
+// |      |  +   |  @   |   \  |   !  |
+// '----------------------------------'
+#define ______________REGEX1______________ KC_TILD, KC_ASTR, KC_AMPR, KC_PIPE
+#define ______________REGEX2______________ KC_LT,   KC_PERC, KC_GT,   KC_QUES
+#define ______________REGEX3______________ KC_PLUS, KC_AT,   KC_BSLS, KC_EXLM
+
 // text operations
-#define ______________TEXTOPS_____________ UNDO,    CUT,     COPY,    PASTE 
+#define ______________TEXTOPS_____________ UNDO,CUT,COPY,PASTE 

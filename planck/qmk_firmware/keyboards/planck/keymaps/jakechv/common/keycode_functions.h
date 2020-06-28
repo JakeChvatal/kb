@@ -1,3 +1,5 @@
+#include "macros.h"
+
 // .......................................................... Keycode Primitives
 // register simple key press
 void tap_key(uint16_t keycode)

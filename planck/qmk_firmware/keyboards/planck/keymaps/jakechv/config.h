@@ -41,4 +41,7 @@
  * are currently supported.
  */
 #define QWERTY
+// #define ROLLOVER
+
+// hold home row keys for mod keys
 #endif

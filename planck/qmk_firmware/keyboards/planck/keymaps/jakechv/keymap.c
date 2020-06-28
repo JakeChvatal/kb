@@ -4,23 +4,13 @@ extern keymap_config_t keymap_config;
 #include "common/keycodes.h"
 #include "common/tapdance.h" 
 #include "common/keycode_functions.h" 
+#include "common/keycode_groups.h"
 
 // vararg macro -- delays macro expansion for home rows
 #define LAYOUT_planck_grid_wrapper(...) LAYOUT_planck_grid(__VA_ARGS__)
 
-// ........................................................ Default Alpha Layout
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-#include "default_layout.h"
-// ...................................................... Number / Function Keys
-#include "number_fkey_layout.h"
-// ......................................................... Symbol / Navigation
-#include "symbol_guifn_layout.h"
-// ............................................................... Toggle Layers
-#ifdef CENTER_TT
-#include "toggle_layout.h"
-#endif
-// ......................................................... Short Cuts / Adjust
-#include "chord_layout.h"
+#include "layout.h"
 };
 
 
@@ -30,11 +20,14 @@ void eeconfig_init_user(void) {
 #endif
 }
 
+#define KEYCODE uint16_t keycode
+
 // Redefine process_record_keymap() in keymap definitions.
-__attribute__ ((weak))
-bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-  return true;
-}
+// TODO
+/* __attribute__ ((weak)) */
+/* bool process_record_keymap(KEYCODE, RECORD) { */
+/*   return true; */
+/* } */
 
 #define BASE_1  1
 #define BASE_2  2
@@ -42,11 +35,74 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
 static uint8_t base_n = 0;
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record)
+bool process_record_user(KEYCODE, RECORD)
 {
   switch (keycode) {
+
+#ifdef ROLLOVER
+#ifdef QWERTY
+  case HOME_A:
+    mod_roll(record, LEFT, NOSHIFT, KC_LGUI, KC_A, 0);  break;
+  case HOME_S:
+    mod_roll(record, LEFT, NOSHIFT, KC_LCTL, KC_S, 1);  break;
+  case HOME_D:
+    mod_roll(record, LEFT, NOSHIFT, KC_LALT, KC_D, 2);  break;
+  case HOME_F:
+    leadercap = KEY_DOWN ? 1 : 0;  // space/enter + shift shortcut, see leader_cap()
+    mod_roll(record, LEFT, SHIFT, KC_LSFT, KC_F, 3);    break;
+
+  case HOME_J:
+    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_H, 6);   break;
+  case HOME_K:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_J, 7); break;
+  case HOME_L:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_K, 8); break;
+  case HOME_SC:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_SCLN, 9); break;
+#endif
+#ifdef COLEMAK
+  case HOME_A:
+    mod_roll(record, LEFT, NOSHIFT, KC_LGUI, KC_A, 0);  break;
+  case HOME_R:
+    mod_roll(record, LEFT, NOSHIFT, KC_LCTL, KC_S, 1);  break;
+  case HOME_S:
+    mod_roll(record, LEFT, NOSHIFT, KC_LALT, KC_D, 2);  break;
+  case HOME_T:
+    leadercap = KEY_DOWN ? 1 : 0;  // space/enter + shift shortcut, see leader_cap()
+    mod_roll(record, LEFT, SHIFT, KC_LSFT, KC_F, 3);    break;
+
+  case HOME_N:
+    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_H, 6);   break;
+  case HOME_E:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_J, 7); break;
+  case HOME_I:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_K, 8); break;
+  case HOME_O:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_SCLN, 9); break;
+#endif
+#ifdef COLEMAK
+  case HOME_A:
+    mod_roll(record, LEFT, NOSHIFT, KC_LGUI, KC_A, 0);  break;
+  case HOME_R:
+    mod_roll(record, LEFT, NOSHIFT, KC_LCTL, KC_S, 1);  break;
+  case HOME_S:
+    mod_roll(record, LEFT, NOSHIFT, KC_LALT, KC_D, 2);  break;
+  case HOME_T:
+    leadercap = KEY_DOWN ? 1 : 0;  // space/enter + shift shortcut, see leader_cap()
+    mod_roll(record, LEFT, SHIFT, KC_LSFT, KC_F, 3);    break;
+
+  case HOME_N:
+    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_H, 6);   break;
+  case HOME_E:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_J, 7); break;
+  case HOME_I:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_K, 8); break;
+  case HOME_O:
+    mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_SCLN, 9); break;
+#endif
+#endif
     case BASE1:
-      if (record->event.pressed) {
+      if (KEY_DOWN) {
         base_n = base_n | BASE_1;
         if (base_n == BASE_12) {
           base_layer();
@@ -57,7 +113,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
       }
       return false;
     case BASE2:
-      if (record->event.pressed) {
+      if (KEY_DOWN) {
         base_n = base_n | BASE_2;
         if (base_n == BASE_12) {
           base_layer();
@@ -134,8 +190,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
       thumb_layer(record, RIGHT, NOSHIFT, KC_DEL, _MOUSE, _LSHIFT);
       break;
     case SL_PIPE:
-      // LT (_ADJUST, S(KC_BSLS)) emulation
-      lt_shift(record, KC_BSLS, _ADJUST);
+      // LT (_ADJUST, S(KC_BSLS)) emulation TODO
+      lt_shift(record, KC_BSLS, _FNCKEY); 
       break;
     case SL_TAB:
       // LT (_FNCKEY, S(KC_TAB)) emulation
@@ -155,7 +211,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
       thumb_layer(record, LEFT, 0, 0, _LSHIFT, _SYMBOL);
       break;
     case PS_BASE:
-      if (record->event.pressed) {
+      if (KEY_DOWN) {
         base_layer();
       }
       return false;
