@@ -108,19 +108,8 @@ bool process_record_user(KEYCODE, RECORD) {
       }
       return false;
     case AT_DOWN:
-
-#ifdef CENTER_TT
-    case TT_ESC:
-      clear_tt();                           // exit TT layer
-      return false;
-#endif
+      tap_layer(record, _NUMBER); // TODO ??
     case LT_ESC:
-#ifdef CENTER_TT
-      if (tt_keycode != 0) {
-        clear_tt();                         // exit TT layer
-        return false;
-      }
-#endif
       tap_layer(record, _NUMBER);
       break;
     case LT_LEFT:
