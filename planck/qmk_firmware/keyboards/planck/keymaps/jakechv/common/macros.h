@@ -1,6 +1,6 @@
 // convenient macros
 #define RECORD keyrecord_t *record
-// TODO refactor with these? may prove to be unnecessary obfuscation...
+// TODO refactor with these? may be unnecessary obfuscation...
 // #define KEYCODE uint16_t keycode
 // #define LAYER uint8_t layer
 // #define SHIFT uint8_t shift

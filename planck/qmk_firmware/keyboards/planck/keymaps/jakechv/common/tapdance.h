@@ -1,3 +1,4 @@
+#include "keycode_functions.h"
 // tap dance keys
 enum tap_dance {
   _CAPS = 0

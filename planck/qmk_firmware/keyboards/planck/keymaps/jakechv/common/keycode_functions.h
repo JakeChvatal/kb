@@ -1,5 +1,7 @@
 #include "macros.h"
 
+// void register_shift(uint16_t keycode):
+// void unregister_shift(uint16_t keycode):
 // .......................................................... Keycode Primitives
 // quickly press key
 void tap_key(uint16_t keycode);
@@ -32,15 +34,6 @@ void bspc(STATE, void *user_data); // augment pseudo LT (_RSHIFT, KC_ENT) handli
 void bspc_reset(STATE, void *user_data); // reset bspc
 void space(STATE, void *user_data); // augment pseudo LT (_LSHIFT, KC_SPC) handling below for rapid <SPACE><SHIFT> sequences
 void space_reset(STATE, void *user_data); // reset spc
-// ......................................................... Triple Dance Insert
-// double tap if key pressed multiple times
-void double_max(uint8_t count, uint8_t shift, uint16_t keycode);
-void colon(STATE, void *user_data);
-void eql(STATE, void *user_data);
-void greater(STATE, void *user_data);
-void lesser(STATE, void *user_data);
-void tilde(STATE, void *user_data);
-void tilde_reset(STATE, void *user_data);
 
 // ............................................................. Tap Dance Pairs
 // tap dance shift rules
@@ -52,58 +45,8 @@ void tilde_reset(STATE, void *user_data);
 
 void symbol_pair(uint8_t shift, uint16_t left, uint16_t right); // press a pair of symbols together
 void tap_pair(STATE, uint8_t shift, uint16_t left, uint16_t right, uint16_t modifier, uint8_t close); // tap dance symbol pairs
-void doublequote(STATE , void *user_data); // close double quote
-void grave(STATE , void *user_data); // close back quote
-void lbrace(STATE , void *user_data); // close brace
-void lcurly(STATE , void *user_data); // close curly brace
-void lparen(STATE , void *user_data);  // close parens 
-void lparen_reset(STATE , void *user_data); // reset parens
-void quote(STATE , void *user_data);  // close quotes
-void rangle(STATE , void *user_data);  // close angle brackets
-void rbrace(STATE , void *user_data); // close braces
-void rcurly(STATE , void *user_data); // close curly braces
-void rparen(STATE , void *user_data);
-void rparen_reset(STATE , void *user_data);
-// ............................................................ Tap Dance Insert
-void comma(STATE, void *user_data); // double tap comma for spc
-void dot(STATE, void *user_data); // double tap dot for colon
-// compile time macro string, see functions/hardware planck script
-void private(STATE, void *user_data); // double tap for private string
-// config.h defined string
-void send(STATE, void *user_data); // double tap for public string
-// .......................................................... Tap Dance One Shot
-void caps(STATE, void *user_data); // double tap caps for perm caps
-void caps_reset(STATE, void *user_data); // revoke clock
-// ................................................................... Tap Dance
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps, caps_reset)
- ,[_COLN] = ACTION_TAP_DANCE_FN         (colon)
- ,[_COMM] = ACTION_TAP_DANCE_FN         (comma)
- ,[_DOT]  = ACTION_TAP_DANCE_FN         (dot)
- ,[_DQOT] = ACTION_TAP_DANCE_FN         (doublequote)
- ,[_ENT]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, enter, enter_reset)
- ,[_BSPC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, bspc, bspc_reset)
- ,[_EQL]  = ACTION_TAP_DANCE_FN         (eql)
- ,[_GRV]  = ACTION_TAP_DANCE_FN         (grave)
- ,[_GT]   = ACTION_TAP_DANCE_FN         (greater)
- ,[_LBRC] = ACTION_TAP_DANCE_FN         (lbrace)
- ,[_LCBR] = ACTION_TAP_DANCE_FN         (lcurly)
- ,[_LPRN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lparen, lparen_reset)
- ,[_LT]   = ACTION_TAP_DANCE_FN         (lesser)
- ,[_PRIV] = ACTION_TAP_DANCE_FN         (private)
- ,[_QUOT] = ACTION_TAP_DANCE_FN         (quote)
- ,[_RBRC] = ACTION_TAP_DANCE_FN         (rbrace)
- ,[_RCBR] = ACTION_TAP_DANCE_FN         (rcurly)
- ,[_RNGL] = ACTION_TAP_DANCE_FN         (rangle)
- ,[_RPRN] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rparen, rparen_reset)
- ,[_SEND] = ACTION_TAP_DANCE_FN         (send)
- ,[_SPC]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, space, space_reset)
- ,[_TILD] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tilde, tilde_reset)
-};
 
 // .............................................................. Dynamic Layers
-
 #define        LEFT    1
 #define        RIGHT   2
 // LEFT (KC_SPC, S(KC_BSLS)), RIGHT (KC_LEFT, S(KC_LEFT)) opposite thumb combinations, see process_record_user()
