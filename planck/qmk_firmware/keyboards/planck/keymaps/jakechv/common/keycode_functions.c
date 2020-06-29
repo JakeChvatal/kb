@@ -29,6 +29,13 @@ void shift_key(uint16_t keycode) {
   tap_key        (keycode);
   unregister_code(KC_LSFT);
 }
+// double tap key with count
+#define SHIFTED_OR(k) shift ? shift_key(k) : tap_key(k)
+void double_tap(uint8_t count, uint8_t shift, uint16_t keycode)
+{
+  SHIFTED_OR(keycode);
+  if (count > 1) { SHIFTED_OR(keycode); }
+}
 
 #define SHIFT   1
 #define NOSHIFT 0
@@ -78,6 +85,49 @@ void mt_shift(RECORD, uint16_t modifier, uint16_t modifier2, uint16_t keycode) {
 // tap dance persistent mods, see process_record_user()
 // keyboard_report->mods (?) appears to be cleared by tap dance
 static uint8_t mods = 0;
+
+void register_modifier(uint16_t keycode) {
+  register_code(keycode);
+  mods |= MOD_BIT(keycode);
+}
+
+void unregister_modifier(uint16_t keycode) {
+  unregister_code(keycode);
+  mods &= ~(MOD_BIT(keycode));
+}
+
+#define MOD_KEY(x) mods & MOD_BIT(x)
+
+// (un)register modifiers
+void mod_all(void (*f)(uint8_t), uint8_t mask) {
+  if (!mods)            { return; }
+  if (MOD_KEY(KC_LGUI)) { f(KC_LGUI); }
+  if (MOD_KEY(KC_LCTL)) { f(KC_LCTL); }
+  if (MOD_KEY(KC_LALT)) { f(KC_LALT); }
+  if (MOD_KEY(KC_LSFT)) { f(KC_LSFT); }
+  if (MOD_KEY(KC_RSFT)) { f(KC_RSFT); }  // note: qmk macros all use left modifiers
+  if (MOD_KEY(KC_RALT)) { f(KC_RALT); }
+  if (MOD_KEY(KC_RCTL)) { f(KC_RCTL); }
+  if (MOD_KEY(KC_RGUI)) { f(KC_RGUI); }
+  mods &= (mask ? 0xFF : 0);             // 0 -> discard, otherwise -> retain state
+}
+
+// two or more active modifier keys (down) only, see mod_roll()
+bool chained_modifier(void) {
+  uint8_t bits = 0;
+  uint8_t i    = mods;
+  while(i) { bits += i % 2; i >>= 1; }
+  return bits > 1;
+}
+
+void mod_bits(RECORD, uint16_t keycode) {
+  if (KEY_DOWN) { mods |=   MOD_BIT(keycode); }
+  else          { mods &= ~(MOD_BIT(keycode)); }
+}
+// base layer modifier
+bool mod_down(uint16_t key_code) {
+  return mods == MOD_BIT(key_code);  // on home row modifier only
+}
 
 void tap_mods(RECORD, uint16_t keycode) {
   if (KEY_DOWN) {

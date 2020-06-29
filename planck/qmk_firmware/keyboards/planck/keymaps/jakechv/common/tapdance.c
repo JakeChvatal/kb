@@ -1,4 +1,17 @@
+#pragma once
 #include "keycode_functions.c"
+
+// ........................................................... Context Multi Tap
+
+#define TAP      state->count
+#define TAPS     TAP > 1
+#define TAP_DOWN state->pressed
+
+#define REPEAT(f, k) for (uint8_t i = 0; i < TAP; i++) { f(k); }
+
+#define DOUBLE_TAP(k, s) if (TAP_DOWN)      { register_code(k); } \
+                         else if (TAP == 2) { send_string(s); }   \
+                         else REPEAT(tap_key, k);
 
 void doublequote(STATE, void *user_data) { // close double quote
   tap_pair(state, S_ALWAYS, KC_QUOT, KC_QUOT, 0, 0);
@@ -50,29 +63,41 @@ void rparen_reset(STATE, void *user_data) {
   unregister_code(KC_LCTL);
 }
 
-// ............................................................ Tap Dance Insert
+// ........................................................... Simple Double Tap
 
-void comma(STATE, void *user_data) { // double tap comma for spc
-  tap_key(KC_COMM);
-  if (state->count > 1) {
-    tap_key(KC_SPC);
-  }
+void asterisk(STATE, void *user_data) {
+  if (TAPS) { tap_key(KC_DOT); }
+  shift_key(KC_8);
   reset_tap_dance(state);
 }
 
-void dot(STATE, void *user_data) { // double tap dot for colon
-  if (state->count > 1) {
-    shift_key(KC_COLN);
-  }
-  else {
-    tap_key(KC_DOT);
-  }
+void comma(STATE, void *user_data) { // double tap for spc
+  tap_key(KC_COMM);
+  if (TAPS) { tap_key(KC_SPC); }
   reset_tap_dance(state);
+}
+
+void dot(STATE, void *user_data) { 
+  if (biton32(layer_state) == _NUMBER) { TAPS ? shift_key(KC_COLN) : tap_key(KC_DOT); }
+  else                                 { TAPS ? send_string("./") : tap_key(KC_DOT); }  // see symbol layer
+  reset_tap_dance(state);
+}
+
+
+void percent(STATE, void *user_data) {
+  if (TAPS && TAP_DOWN) { register_shift(KC_5); }
+  else                  { TAP_DOWN ? register_code(KC_LALT) : double_tap(TAP, SHIFT, KC_5); }
+  reset_tap_dance(state);
+}
+
+void percent_reset(STATE, void *user_data) {
+  unregister_shift(KC_5);
+  unregister_code (KC_LALT);
 }
 
 // compile time macro string, see functions/hardware planck script
 void private(STATE, void *user_data) { // double tap for private string
-  if (state->count > 1) {
+  if (TAPS) {
 #ifdef PRIVATE_STRING
 #include "private_string.h"
 #endif
@@ -82,18 +107,14 @@ void private(STATE, void *user_data) { // double tap for private string
 
 // config.h defined string
 void send(STATE, void *user_data) { // double tap for public string
-  if (state->count > 1) {
-    SEND_STRING(PUBLIC_STRING);
-  }
+  if (TAPS) { SEND_STRING(PUBLIC_STRING); }
   reset_tap_dance(state);
 }
 
 // .......................................................... Tap Dance One Shot
 
 void caps(STATE, void *user_data) { // double tap caps for perm caps
-  if (state->count > 1) {
-    tap_key(KC_CAPS);
-  }
+  if (TAPS) { tap_key(KC_CAPS); }
   else {
     set_oneshot_mods(MOD_LSFT);
     register_code   (KC_LSFT);              // on hold down
@@ -105,75 +126,77 @@ void caps_reset(STATE, void *user_data) { // revoke clock
 }
 
 // ......................................................... Triple Dance Insert
-// double tap if key pressed multiple times
+
+
 void colon(STATE, void *user_data) {
-  if (state->count > 2) { // triple tap colon: _;;_
-    tap_key  (KC_SPC);
-    shift_key(KC_SCLN);
-    shift_key(KC_SCLN);
-    tap_key  (KC_SPC);
-  }
-  else { // shift scln 
-    double_max(state->count, SHIFT, KC_SCLN);
-  }
+  if (mod_down(KC_RSFT)) {  // handle like map_shift()
+#ifdef EMOJI
+    if (TAPS){ DOUBLE_TAP(KC_SCLN, " :-"); } 
+#else
+    if (TAPS){ REPEAT(tap_key, KC_SCLN); } 
+#endif
+    else     { TAP_DOWN ? register_code(KC_SCLN) : double_tap(TAP, NOSHIFT, KC_SCLN); } // ;
+  } else if (TAPS) {
+    if (TAP_DOWN)      { register_shift(KC_SCLN); }
+#ifdef HASKELL
+    else if (TAP == 2) { send_string(" :: "); } 
+#endif
+    else REPEAT(shift_key, KC_SCLN);
+  } else { TAP_DOWN ? register_shift(KC_SCLN) : double_tap(TAP, SHIFT, KC_SCLN); }
   reset_tap_dance(state);
 }
 
-void eql(STATE, void *user_data) {
-  if (state->count > 2) { // triple tap eql: _/=_
-    tap_key(KC_SPC);
-    tap_key(KC_SLSH);
-    tap_key(KC_EQL);
-    tap_key(KC_SPC);
-  }
-  else {
-    double_max(state->count, NOSHIFT, KC_EQL);
-  }
+void colon_reset(STATE, void *user_data) {
+  unregister_shift(KC_SCLN);
+  if (mod_down(KC_RSFT)) { register_code(KC_RSFT); }  // restore HOME_T, see process_record_user() TD_COLN
+}
+
+void equal(STATE, void *user_data) { // send_string " /= "
+  if (TAPS) { DOUBLE_TAP(KC_EQL, EQLEQL); }
+  else      { TAP_DOWN ? register_code(KC_EQL) : double_tap(TAP, NOSHIFT, KC_EQL); }
   reset_tap_dance(state);
 }
 
+#define DOUBLE_SHIFT(k, s) if (TAP_DOWN)          { register_shift(k); } \
+                           else if (TAP == 2)     { send_string(s); }    \
+                           else REPEAT(shift_key, k);
+
+// tap for ->
 void greater(STATE, void *user_data) {
-  if (state->count > 2) { // triple tap dot: _-._ (?? TODO)
-    tap_key  (KC_SPC);
-    tap_key  (KC_MINS);
-    shift_key(KC_DOT);
-    tap_key  (KC_SPC);
-  }
-  else {
-    double_max(state->count, SHIFT, KC_DOT);
-  }
+  if (TAPS) { DOUBLE_SHIFT(KC_DOT, " -> "); }
+  else      { TAP_DOWN ? register_code(KC_LSFT) : double_tap(TAP, SHIFT, KC_DOT); }
   reset_tap_dance(state);
 }
 
+void greater_reset(STATE, void *user_data) {
+  unregister_shift(KC_DOT);
+  unregister_code (KC_LSFT);
+}
+
+// tap for <- 
 void lesser(STATE, void *user_data) {
-  if (state->count > 2) { // triple tap comm: _,-_
-    tap_key  (KC_SPC);
-    shift_key(KC_COMM);
-    tap_key  (KC_MINS);
-    tap_key  (KC_SPC);
-  }
-  else {
-    double_max(state->count, SHIFT, KC_COMM);
-  }
+  if (TAPS) { DOUBLE_SHIFT(KC_COMM, " <- "); }
+  else      { TAP_DOWN ? register_code(KC_LCTL) : double_tap(TAP, SHIFT, KC_COMM); }
   reset_tap_dance(state);
 }
 
-void tilde(STATE, void *user_data) {
-  if (state->count > 2) { // triple tap tilde: ~ TODO
-    register_code(KC_LSFT);
-    register_code(KC_GRV);
-  }
-  else {  // tap: keycode
-    shift_key(KC_GRV);
-    if (state->count > 1) { // double tap: ~/
-      tap_key(KC_SLSH);
-    }
-  }
+void lesser_reset(STATE, void *user_data) {
+  unregister_shift(KC_COMM);
+  unregister_code (KC_LCTL);
 }
 
-void tilde_reset(STATE, void *user_data) {
-  unregister_code(KC_GRV);
-  unregister_code(KC_LSFT);
+void tilde(STATE, void *user_data)
+{
+  if (TAPS) { DOUBLE_SHIFT(KC_GRV, "~/"); }
+  else      { TAP_DOWN ? register_shift(KC_GRV) : shift_key(KC_GRV); }
+  reset_tap_dance(state);
+}
+
+void tilde_reset(STATE, void *user_data)
+{
+  unregister_shift(KC_GRV);
+  unregister_code (KC_DOT);
+  if (mod_down(KC_RSFT)) { register_code(KC_RSFT); }  // restore HOME_T, see process_record_user() TD_TILD
 }
 
 
@@ -186,7 +209,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
  ,[_DQOT] = ACTION_TAP_DANCE_FN         (doublequote)
  ,[_ENT]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, enter, enter_reset)
  ,[_BSPC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, bspc, bspc_reset)
- ,[_EQL]  = ACTION_TAP_DANCE_FN         (eql)
+ ,[_EQL]  = ACTION_TAP_DANCE_FN         (equal)
  ,[_GRV]  = ACTION_TAP_DANCE_FN         (grave)
  ,[_GT]   = ACTION_TAP_DANCE_FN         (greater)
  ,[_LBRC] = ACTION_TAP_DANCE_FN         (lbrace)

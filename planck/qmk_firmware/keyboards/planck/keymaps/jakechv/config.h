@@ -34,6 +34,9 @@
 #define PERMISSIVE_HOLD
 #define IGNORE_MOD_TAP_INTERRUPT
 
+// double tap '=' behavior
+#define EQLEQL "~="
+
 /* define the keyboard layout to be used:
  * - QWERTY
  * - SOUL
