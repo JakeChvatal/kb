@@ -42,11 +42,11 @@ bool process_record_user(uint16_t keycode, RECORD) {
     mod_roll(record, LEFT, SHIFT, KC_LSFT, KC_F, 3);    break;
 
   case HOME_J:
-    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_H, 6);   break;
+    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_J, 6);   break;
   case HOME_K:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_J, 7); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_K, 7); break;
   case HOME_L:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_K, 8); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_L, 8); break;
   case HOME_SC:
     mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_SCLN, 9); break;
 #endif
@@ -62,33 +62,33 @@ bool process_record_user(uint16_t keycode, RECORD) {
     mod_roll(record, LEFT, SHIFT, KC_LSFT, KC_F, 3);    break;
 
   case HOME_N:
-    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_H, 6);   break;
+    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_N, 6);   break;
   case HOME_E:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_J, 7); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_E, 7); break;
   case HOME_I:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_K, 8); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_I, 8); break;
   case HOME_O:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_SCLN, 9); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_O, 9); break;
 #endif
-#ifdef COLEMAK
+#ifdef SOUL
   case HOME_A:
     mod_roll(record, LEFT, NOSHIFT, KC_LGUI, KC_A, 0);  break;
   case HOME_R:
-    mod_roll(record, LEFT, NOSHIFT, KC_LCTL, KC_S, 1);  break;
+    mod_roll(record, LEFT, NOSHIFT, KC_LCTL, KC_R, 1);  break;
   case HOME_S:
-    mod_roll(record, LEFT, NOSHIFT, KC_LALT, KC_D, 2);  break;
+    mod_roll(record, LEFT, NOSHIFT, KC_LALT, KC_S, 2);  break;
   case HOME_T:
     leadercap = KEY_DOWN ? 1 : 0;  // space/enter + shift shortcut, see leader_cap()
-    mod_roll(record, LEFT, SHIFT, KC_LSFT, KC_F, 3);    break;
+    mod_roll(record, LEFT, SHIFT, KC_LSFT, KC_T, 3);    break;
 
   case HOME_N:
-    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_H, 6);   break;
+    mod_roll(record, RIGHT, SHIFT, KC_RSFT, KC_N, 6);   break;
   case HOME_E:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_J, 7); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RALT, KC_E, 7); break;
   case HOME_I:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_K, 8); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RCTL, KC_I, 8); break;
   case HOME_O:
-    mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_SCLN, 9); break;
+    mod_roll(record, RIGHT, NOSHIFT, KC_RGUI, KC_O, 9); break;
 #endif
 #endif
     case BASE1:

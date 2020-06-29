@@ -2,7 +2,7 @@
 #define CONFIG_USER_H
 
 // tap dance key press termination interval
-#define TAPPING_TERM 250
+#define TAPPING_TERM 175
 
 // smooth mouse motion
 #define MOUSEKEY_INTERVAL    20
@@ -35,7 +35,7 @@
 #define IGNORE_MOD_TAP_INTERRUPT
 
 // double tap '=' behavior
-#define EQLEQL "~="
+#define EQLEQL "=="
 
 /* define the keyboard layout to be used:
  * - QWERTY
