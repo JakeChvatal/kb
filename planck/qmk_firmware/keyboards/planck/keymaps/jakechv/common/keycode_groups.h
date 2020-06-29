@@ -1,3 +1,4 @@
+#pragma once
 // --- keycode macro groups
 // inspired by https://github.com/noahfrederick/qmk-keymaps/blob/master/user/my.h
 // --- convenience
@@ -12,8 +13,8 @@
 #define __________MEDIA__________ KC_MPRV, KC_MPLY, KC_MNXT
 
 // navigation
-#define __________________NAV1_____________________ _______, KC_HOME, KC_UP, KC_END,  KC_PGUP
-#define __________________NAV2_____________________ KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_PGDN
+#define __________________NAV1_____________________ KC_PGUP, _______, KC_HOME, KC_UP, KC_END
+#define __________________NAV2_____________________ KC_PGDN, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT
 
 // mouse
 // .----------------------------------.
@@ -36,16 +37,16 @@
 // .---------------------------.
 // | Ctrl |  GUI |  Alt | Shift|
 // `---------------------------'
-#define _____________MODKEYS______________ OS_CTL, OS_GUI, OS_ALT, OS_SFT
+#define _____________MODKEYS______________ OS_GUI, OS_CTL, OS_ALT, OS_SFT
 
 // function keys
-// .----------------------------------.
-// |      |  F7  |  F8  |  F9  |  F12 |
-// |----------------------------------|
-// |      |  F4  |  F5  |  F6  |  F11 |
-// |----------------------------------|
-// |      |  F1  |  F2  |  F3  |  F10 |
-// '----------------------------------'
+// .---------------------------.
+// |  F7  |  F8  |  F9  |  F12 |
+// |---------------------------|
+// |  F4  |  F5  |  F6  |  F11 |
+// |---------------------------|
+// |  F1  |  F2  |  F3  |  F10 |
+// '---------------------------'
 #define _______________FN1________________ KC_F7, KC_F8, KC_F9, KC_F12
 #define _______________FN2________________ KC_F4, KC_F5, KC_F6, KC_F11 
 #define _______________FN3________________ KC_F1, KC_F2, KC_F3, KC_F10 
@@ -80,12 +81,12 @@
 // .----------------------------------.
 // |      |  .   |  *   |   ^  |   |  |
 // |----------------------------------|
-// |      |  <   |  %   |   >  |   ?  |
+// |      |  ?   |  <   |  %   |   >  |
 // |----------------------------------|
 // |      |  +   |  @   |   \  |   !  |
 // '----------------------------------'
 #define ______________REGEX1______________ KC_TILD, KC_ASTR, KC_AMPR, KC_PIPE
-#define ______________REGEX2______________ KC_LT,   KC_PERC, KC_GT,   KC_QUES
+#define ______________REGEX2______________ KC_QUES, KC_LT,   KC_PERC, KC_GT
 #define ______________REGEX3______________ KC_PLUS, KC_AT,   KC_BSLS, KC_EXLM
 
 // text operations
