@@ -10,8 +10,8 @@
       L1, BL1, BR1, R1, \
       L2, BL2, BR2, R2, \
       L3, BL3, BR3, R3, \
-      BL4, L4, R4, BR4 \
-    ) 
+      BL4, L4, R4,  BR4 \
+    )
 #else
 #define flex_planck_layout(BL1, L1, R1, BR1, \
                            BL2, L2, R2, BR2, \
@@ -21,7 +21,7 @@
       BL1, L1, R1, BR1, \
       BL2, L2, R2, BR2, \
       BL3, L3, R3, BR3, \
-      BL4, L4, R4, BR4  \
+      L4, BL4, BR4, R4  \
     )
 #endif
 
@@ -48,10 +48,13 @@
 
 
 #define BASE_L KC_LSFT, OS_GUI,  OS_ALT,  LT_ESC, LT_TAB
-#define BASE_R LT_ENT, LT_LEFT, AT_DOWN,  GT_UP, CT_RGHT
+#define BASE_R LT_ENT,  LT_LEFT, AT_DOWN, GT_UP,  CT_RGHT
 
-#define LSHIFT_R KC_MINS, SL_LEFT, S_DOWN, S_UP, S_RGHT
+#define LSHIFT_R KC_MINS, SL_LEFT, S_DOWN, S_UP,    S_RGHT
 #define RSHIFT_L KC_LSFT, OS_GUI,  OS_ALT, KC_CAPS, KC_UNDS
+
+#define SYM_LFT ___x___, ___x___, ___x___, KC_PIPE, LT_BSLS
+#define NUM_RGT KC_0, ___x___,  ___x___,  ___x___, ___x___
 
   // base and shifted layers
   [_BASE] = flex_planck_layout(
@@ -71,30 +74,29 @@
 
   // left shifted layer
   [_LSHIFT] = flex_planck_layout(
-    KC_TAB,  KEYCL1, KEYCR1, _______, 
-    GUI_ESC, KEYCL2, KEYCR2, KC_QUOT, 
-    OS_CTL,  KEYCL3, KEYCR3, _______, 
+    KC_TAB,  KEYCL1, KEYCR1,   _______, 
+    GUI_ESC, KEYCL2, KEYCR2,   KC_QUOT, 
+    OS_CTL,  KEYCL3, KEYCLSL3, _______, 
     LT_TAB,  BASE_R, LSHIFT_R, KC_DEL
   ),
 
   // right shifted layer
   [_RSHIFT] = flex_planck_layout(
-    KC_TAB,  KEYCL1, KEYCR1,   _______, 
-    GUI_ESC, KEYCL2, KEYCR2,   KC_QUOT, 
-    OS_CTL,  KEYCL3, KEYCRSR3, _______, 
-    SL_TAB, RSHIFT_L,BASE_R,   ___fn__ 
+    KC_TAB,  KEYCL1,  KEYCR1,   _______, 
+    GUI_ESC, KEYCL2,  KEYCR2,   KC_QUOT, 
+    OS_CTL,  KEYCL3,  KEYCRSR3, _______, 
+    SL_TAB, RSHIFT_L, BASE_R,   ___fn__ 
     ),
 
-  // num keypad layer
+// num keypad layer
   [_NUMBER] = overlay_planck_layout(
     BLANK, NUM1, 
     BLANK, NUM2, 
     BLANK, NUM3, 
-    _______, BLANK, TD_EQL, KC_0, ___x___,  ___x___,  ___x___, ___x___
+    _______, BLANK, NUM_RGT, TD_EQL
   ),
 
-
-  // function keys
+// function keys
   [_FNCKEY] = overlay_planck_layout(
     BLANCK,  FN1, 
     MODKEYS, FN2, 
@@ -107,7 +109,7 @@
    BRKTS1, NAV1,    
    BRKTS2, NAV2,    
    BRKTS3, BLANCK,  
-   ___x___, ___x___, ___x___, KC_PIPE, LT_BSLS,  ___x___, ___x___, ___fn__, ___x___, ___x___, ___x___, ___x___
+   _______, SYM_LFT, BLANCK, _______
   ),
 
   // regex layer
