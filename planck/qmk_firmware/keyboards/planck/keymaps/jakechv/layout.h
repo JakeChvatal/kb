@@ -1,81 +1,132 @@
 #include "common/default_keys.h"
+
+// helpful macros for laying out key groups
+#ifdef WIDE_LAYOUT
+#define flex_planck_layout(BL1, L1, R1, BR1, \
+                           BL2, L2, R2, BR2, \
+                           BL3, L3, R3, BR3, \
+                           BL4, L4, R4, BR4) \
+    planck_layout( \
+      L1, BL1, BR1, R1, \
+      L2, BL2, BR2, R2, \
+      L3, BL3, BR3, R3, \
+      BL4, L4, R4, BR4 \
+    ) 
+#else
+#define flex_planck_layout(BL1, L1, R1, BR1, \
+                           BL2, L2, R2, BR2, \
+                           BL3, L3, R3, BR3, \
+                           BL4, L4, R4, BR4) \
+    planck_layout( \
+      BL1, L1, R1, BR1, \
+      BL2, L2, R2, BR2, \
+      BL3, L3, R3, BR3, \
+      BL4, L4, R4, BR4  \
+    )
+#endif
+
+#define overlay_planck_layout(L1, R1, \
+                              L2, R2, \
+                              L3, R3, \
+                              BL4, L4, R4, BR4) \
+    flex_planck_layout( \
+      _______, L1, R1, _______, \
+      _______, L2, R2, _______, \
+      _______, L3, R3, _______, \
+      BL4,     L4, R4, BR4      \
+    )
+
+#define simple_overlay_planck_layout(L1, R1, \
+                                     L2, R2, \
+                                     L3, R3) \
+   overlay_planck_layout( \
+     L1, R1, \
+     L2, R2, \
+     L3, R3, \
+     _______, BLANCK, BLANCK, _______ \
+   )
+
+
+#define BASE_L KC_LSFT, OS_GUI,  OS_ALT,  LT_ESC, LT_TAB
+#define BASE_R LT_ENT, LT_LEFT, AT_DOWN,  GT_UP, CT_RGHT
+
+#define LSHIFT_R KC_MINS, SL_LEFT, S_DOWN, S_UP, S_RGHT
+#define RSHIFT_L KC_LSFT, OS_GUI,  OS_ALT, KC_CAPS, KC_UNDS
+
   // base and shifted layers
-  [_BASE] = planck_layout(
-    _________________KEYS_L1_________________, KC_TAB,  _______, _________________KEYS_R1_________________, 
-    _________________KEYS_L2_________________, GUI_ESC, KC_QUOT, _________________KEYS_R2_________________,  
-    _________________KEYS_L3_________________, OS_CTL,  _______, _________________KEYS_R3_________________, 
-    KC_LSFT, OS_GUI,  OS_ALT,  LT_ESC,  TD_SPC, LT_TAB, LT_ENT, TD_BSPC, LT_LEFT, AT_DOWN,  GT_UP, CT_RGHT
+  [_BASE] = flex_planck_layout(
+    KC_TAB, KEYS_L1, KEYS_R1, _______,    
+    GUI_ESC,KEYS_L2, KEYS_R2, KC_QUOT,    
+    OS_CTL, KEYS_L3, KEYS_R3, _______,    
+    TD_SPC, BASE_L,  BASE_R,  TD_BSPC
   ),
 
   // normal shifted layer
-  [_SHIFT] = planck_layout(
-    ____________KEYS_CAPS_L1_________________, KC_TAB,  _______, ____________KEYS_CAPS_R1_________________, 
-    ____________KEYS_CAPS_L2_________________, GUI_ESC, KC_QUOT, ____________KEYS_CAPS_R2_________________, 
-    ____________KEYS_CAPS_L3_________________, OS_CTL,  _______, ____________KEYS_CAPS_ShiftR3____________, 
-    KC_LSFT,  OS_GUI,  OS_ALT, LT_ESC,  TD_SPC, LT_TAB, LT_ENT, TD_BSPC, LT_LEFT, AT_DOWN, GT_UP,  CT_RGHT
+  [_SHIFT] = flex_planck_layout(
+    KC_TAB,  KEYCL1, KEYCR1,  _______, 
+    GUI_ESC, KEYCL2, KEYCR2,  KC_QUOT, 
+    OS_CTL,  KEYCL3, KEYCSR3, _______, 
+    LT_TAB,  BASE_L, BASE_R,  LT_ENT
   ),
 
   // left shifted layer
-  [_LSHIFT] = planck_layout(
-    ____________KEYS_CAPS_L1_________________, KC_TAB,  _______, ____________KEYS_CAPS_R1_________________, 
-    ____________KEYS_CAPS_L2_________________, GUI_ESC, KC_QUOT, ____________KEYS_CAPS_R2_________________, 
-    ____________KEYS_CAPS_L3_________________, OS_CTL,  _______, ____________KEYS_CAPS_LShiftR3___________, 
-    KC_LSFT, OS_GUI,  OS_ALT,  LT_ESC, ___fn__, LT_TAB, KC_DEL, KC_MINS, SL_LEFT, S_DOWN,  S_UP,   S_RGHT
+  [_LSHIFT] = flex_planck_layout(
+    KC_TAB,  KEYCL1, KEYCR1, _______, 
+    GUI_ESC, KEYCL2, KEYCR2, KC_QUOT, 
+    OS_CTL,  KEYCL3, KEYCR3, _______, 
+    LT_TAB,  BASE_R, LSHIFT_R, KC_DEL
   ),
 
   // right shifted layer
-  [_RSHIFT] = planck_layout(
-     ____________KEYS_CAPS_L1_________________,KC_TAB,  _______, ____________KEYS_CAPS_R1_________________, 
-     ____________KEYS_CAPS_L2_________________,GUI_ESC, KC_QUOT, ____________KEYS_CAPS_R1_________________, 
-     ____________KEYS_CAPS_L3_________________,OS_CTL,  _______, ____________KEYS_CAPS_RShiftR3___________, 
-    KC_LSFT, OS_GUI,  OS_ALT, KC_CAPS, KC_UNDS, SL_TAB,  ___fn__,TD_BSPC, SL_LEFT, S_DOWN, S_UP,   S_RGHT
-  ),
+  [_RSHIFT] = flex_planck_layout(
+    KC_TAB,  KEYCL1, KEYCR1,   _______, 
+    GUI_ESC, KEYCL2, KEYCR2,   KC_QUOT, 
+    OS_CTL,  KEYCL3, KEYCRSR3, _______, 
+    SL_TAB, RSHIFT_L,BASE_R,   ___fn__ 
+    ),
 
   // num keypad layer
-  [_NUMBER] = planck_layout(
-    _______, _______, _______, _______,_______, _______, _______, ______________________NUM1________________,
-    _______, _______, _______, _______,_______, _______, _______, ______________________NUM2________________,
-    _______, _______, _______, _______,_______, _______, _______, ______________________NUM3________________,
-    ___x___, ___x___, ___x___, ___x___, ___fn__, ___x___, TD_EQL, KC_0, ___x___,  ___x___,  ___x___, ___x___
+  [_NUMBER] = overlay_planck_layout(
+    BLANK, NUM1, 
+    BLANK, NUM2, 
+    BLANK, NUM3, 
+    _______, BLANK, TD_EQL, KC_0, ___x___,  ___x___,  ___x___, ___x___
   ),
 
 
   // function keys
-  [_FNCKEY] = planck_layout(
-    _______, _______, _______, _______, ___x___, _______, _______, ___x___, _______________FN1________________, 
-    _____________MODKEYS______________, ___x___, _______, _______, ___x___, _______________FN2________________, 
-    _______, _______, _______, _______, ___x___, _______, _______, ___x___, _______________FN3________________, 
-    _______, _______, _______, _______, ___fn__, ___fn__, _______, KC_PLUS, _______, _______, _______, _______
+  [_FNCKEY] = overlay_planck_layout(
+    BLANCK,  FN1, 
+    MODKEYS, FN2, 
+    BLANCK,  FN3, 
+    _______, BLANCK, BLANCK, KC_PLUS
   ),
 
   // symbol and navigation layer
-  [_SYMBOL] = planck_layout(
-   ____________BRACKETS1_____________, _______, _______, _______, __________________NAV1_____________________,
-   ____________BRACKETS2_____________, _______, _______, _______, __________________NAV2_____________________,
-   ____________BRACKETS3_____________, _______, _______, _______, _______, _______, _______, _______, _______,
-   ___x___, ___x___, ___x___, KC_PIPE, LT_BSLS, ___x___, ___x___, ___fn__, ___x___, ___x___, ___x___, ___x___
+  [_SYMBOL] = overlay_planck_layout(
+   BRKTS1, NAV1,    
+   BRKTS2, NAV2,    
+   BRKTS3, BLANCK,  
+   ___x___, ___x___, ___x___, KC_PIPE, LT_BSLS,  ___x___, ___x___, ___fn__, ___x___, ___x___, ___x___, ___x___
   ),
 
   // regex layer
-  [_SYMREG] = planck_layout(
-    ______________REGEX1______________, ___x___, _______, _______, _______, ___x___, ___x___, ___x___, ___x___,
-    ______________REGEX3______________, ___x___, _______, _______, _______, _______, ___x___, ___x___, ___x___,
-    ______________REGEX3______________, ___x___, _______, _______, _______, _______, _______, _______, _______,
-    ___x___, ___x___, ___x___, ___x___, ___x___, ___x___, ___x___, ___x___, _______, ___x___, ___x___, ___x___
+  [_SYMREG] = simple_overlay_planck_layout(
+    REGEX1, BLANCK,
+    REGEX3, BLANCK,
+    REGEX3, BLANCK
   ),
 
   // mouse movement layer
-  [_MOUSE] = planck_layout(
-    _______, _______, _______, _______, _______, ___x___, ___x___, _______, ______________MOUSE1______________,             
-    _______, _________MOUSECLK________, _______, ___x___, ___x___, _______, ______________MOUSE2______________,             
-    _______, _______, _______, _______, _______, ___x___, ___x___, _______, _______, _______, _______, _______,             
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______            
+  [_MOUSE] = simple_overlay_planck_layout(
+    BLANCK, MOUSE1,
+    MSCLK,  MOUSE2,
+    BLANCK, BLANCK
   ),
   
   // editor shortcuts
-  [_EDIT] = planck_layout(
-    _______, _______, TMCOPY,  TMPASTE, _______, _______, _______, _______, _______, _______, _______, _______,
-    ______________TEXTOPS_____________, _______, _______, _______, _______, TD_PRIV, TD_SEND, _______, _______,
-    _______, NAK,     EOT,     _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
- ),
+  [_EDIT] = simple_overlay_planck_layout(
+    TXTOPS1, BLANCK, 
+    TXTOPS2, CUSTOM, 
+    TXTOPS3, BLANCK
+  ),
