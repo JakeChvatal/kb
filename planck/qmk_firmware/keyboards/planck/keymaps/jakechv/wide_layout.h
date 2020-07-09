@@ -1,18 +1,20 @@
 #include "common/default_keys.h"
+
+#define BASE_MODS KC_LSFT, OS_GUI,  OS_ALT,  LT_ESC,  TD_SPC, LT_TAB, LT_ENT, TD_BSPC, SL_LEFT, AT_DOWN,  GT_UP, CT_RGHT
   // base and shifted layers
   [_BASE] = planck_layout(
-    _________________KEYS_L1_________________, KC_TAB,  _______, _________________KEYS_R1_________________, 
-    _________________KEYS_L2_________________, GUI_ESC, KC_QUOT, _________________KEYS_R2_________________,  
-    _________________KEYS_L3_________________, OS_CTL,  _______, _________________KEYS_R3_________________, 
-    KC_LSFT, OS_GUI,  OS_ALT,  LT_ESC,  TD_SPC, LT_TAB, LT_ENT, TD_BSPC, LT_LEFT, AT_DOWN,  GT_UP, CT_RGHT
+    KEYS_L1, KC_TAB,  _______,KEYS_R1, 
+    KEYS_L2, GUI_ESC, KC_QUOT,KEYS_R2,  
+    KEYS_L3, OS_CTL,  _______,KEYS_R3, 
+    BASE_MODS
   ),
 
   // normal shifted layer
   [_SHIFT] = planck_layout(
-    ____________KEYS_CAPS_L1_________________, KC_TAB,  _______, ____________KEYS_CAPS_R1_________________, 
-    ____________KEYS_CAPS_L2_________________, GUI_ESC, KC_QUOT, ____________KEYS_CAPS_R2_________________, 
-    ____________KEYS_CAPS_L3_________________, OS_CTL,  _______, ____________KEYS_CAPS_ShiftR3____________, 
-    KC_LSFT,  OS_GUI,  OS_ALT, LT_ESC,  TD_SPC, LT_TAB, LT_ENT, TD_BSPC, LT_LEFT, AT_DOWN, GT_UP,  CT_RGHT
+    KEYS_CAPS_L1, KC_TAB,  _______, ____________KEYS_CAPS_R1_________________, 
+    KEYS_CAPS_L2, GUI_ESC, KC_QUOT, ____________KEYS_CAPS_R2_________________, 
+    KEYS_CAPS_L3, OS_CTL,  _______, ____________KEYS_CAPS_ShiftR3____________, 
+    KC_LSFT,  OS_GUI,  OS_ALT, LT_ESC,  TD_SPC, LT_TAB, LT_ENT, TD_BSPC, SL_LEFT, AT_DOWN, GT_UP,  CT_RGHT
   ),
 
   // left shifted layer

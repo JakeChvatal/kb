@@ -5,10 +5,10 @@
 #define TAPPING_TERM 175
 
 // smooth mouse motion
-#define MOUSEKEY_INTERVAL    20
-#define MOUSEKEY_DELAY       0
+#define MOUSEKEY_INTERVAL 20
+#define MOUSEKEY_DELAY 0
 #define MOUSEKEY_TIME_TO_MAX 60
-#define MOUSEKEY_MAX_SPEED   7
+#define MOUSEKEY_MAX_SPEED 7
 #define MOUSEKEY_WHEEL_DELAY 0
 
 // include private macro string defined in private_string.h
@@ -20,8 +20,8 @@
 // thumb key tap-shift() double tap: one shot shift (0) off (1) on
 #define DT_SHIFT 1
 
-// home block shift symbol clusters defined (no overlays required for extended symbols, undefine otherwise)
-// #define SHIFT_SYMBOLS
+// home block shift symbol clusters defined (no overlays required for extended
+// symbols, undefine otherwise) #define SHIFT_SYMBOLS
 
 // center column TT assignments (undefine for OSM chords)
 #define CENTER_TT
@@ -44,7 +44,10 @@
  * are currently supported.
  */
 #define QWERTY
-#define ROLLOVER
+
+// if defined, places mod keys in the center
+#define WIDE_LAYOUT
 
 // hold home row keys for mod keys
+#define ROLLOVER
 #endif

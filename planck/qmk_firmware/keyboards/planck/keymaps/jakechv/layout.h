@@ -1,51 +1,12 @@
+
+/* #include "common/keycodes.h" */
+/* #include "common/tapdance.h" */
+/* #include "common/tapdance.c" */
+/* #include "common/keycode_functions.c" */
+/* #include "common/keycode_functions.h" */
+
+#include "common/keycode_groups.h"
 #include "common/default_keys.h"
-
-// helpful macros for laying out key groups
-#ifdef WIDE_LAYOUT
-#define flex_planck_layout(BL1, L1, R1, BR1, \
-                           BL2, L2, R2, BR2, \
-                           BL3, L3, R3, BR3, \
-                           BL4, L4, R4, BR4) \
-    planck_layout( \
-      L1, BL1, BR1, R1, \
-      L2, BL2, BR2, R2, \
-      L3, BL3, BR3, R3, \
-      BL4, L4, R4,  BR4 \
-    )
-#else
-#define flex_planck_layout(BL1, L1, R1, BR1, \
-                           BL2, L2, R2, BR2, \
-                           BL3, L3, R3, BR3, \
-                           BL4, L4, R4, BR4) \
-    planck_layout( \
-      BL1, L1, R1, BR1, \
-      BL2, L2, R2, BR2, \
-      BL3, L3, R3, BR3, \
-      L4, BL4, BR4, R4  \
-    )
-#endif
-
-#define overlay_planck_layout(L1, R1, \
-                              L2, R2, \
-                              L3, R3, \
-                              BL4, L4, R4, BR4) \
-    flex_planck_layout( \
-      _______, L1, R1, _______, \
-      _______, L2, R2, _______, \
-      _______, L3, R3, _______, \
-      BL4,     L4, R4, BR4      \
-    )
-
-#define simple_overlay_planck_layout(L1, R1, \
-                                     L2, R2, \
-                                     L3, R3) \
-   overlay_planck_layout( \
-     L1, R1, \
-     L2, R2, \
-     L3, R3, \
-     _______, BLANCK, BLANCK, _______ \
-   )
-
 
 #define BASE_L KC_LSFT, OS_GUI,  OS_ALT,  LT_ESC, LT_TAB
 #define BASE_R LT_ENT,  LT_LEFT, AT_DOWN, GT_UP,  CT_RGHT
@@ -89,46 +50,49 @@
     ),
 
 // num keypad layer
-  [_NUMBER] = overlay_planck_layout(
-    BLANK, NUM1, 
-    BLANK, NUM2, 
-    BLANK, NUM3, 
+  [_NUMBER] = flex_planck_layout(
+    _______, BLANK, NUM1, _______,
+    _______, BLANK, NUM2, _______,
+    _______, BLANK, NUM3, _______,
     _______, BLANK, NUM_RGT, TD_EQL
   ),
 
 // function keys
-  [_FNCKEY] = overlay_planck_layout(
-    BLANCK,  FN1, 
-    MODKEYS, FN2, 
-    BLANCK,  FN3, 
-    _______, BLANCK, BLANCK, KC_PLUS
+  [_FNCKEY] = flex_planck_layout(
+    _______, BLANK,  FN1, _______,
+    _______, MODKEYS, FN2, _______,
+    _______, BLANK,  FN3, _______,
+    _______, BLANK, BLANK, KC_PLUS
   ),
 
   // symbol and navigation layer
-  [_SYMBOL] = overlay_planck_layout(
-   BRKTS1, NAV1,    
-   BRKTS2, NAV2,    
-   BRKTS3, BLANCK,  
-   _______, SYM_LFT, BLANCK, _______
+  [_SYMBOL] = flex_planck_layout(
+   _______, BRKTS1, NAV1,    _______,
+   _______, BRKTS2, NAV2,    _______,
+   _______, BRKTS3, BLANK,  _______,
+   _______, SYM_LFT, BLANK, _______
   ),
 
   // regex layer
-  [_SYMREG] = simple_overlay_planck_layout(
-    REGEX1, BLANCK,
-    REGEX3, BLANCK,
-    REGEX3, BLANCK
+  [_SYMREG] = flex_planck_layout(
+    _______, REGEX1, BLANK, _______,
+    _______, REGEX3, BLANK, _______,
+    _______, REGEX3, BLANK, _______,
+    _______, BLANK, BLANK, _______
   ),
 
   // mouse movement layer
-  [_MOUSE] = simple_overlay_planck_layout(
-    BLANCK, MOUSE1,
-    MSCLK,  MOUSE2,
-    BLANCK, BLANCK
+  [_MOUSE] = flex_planck_layout(
+    _______, BLANK, MOUSE1, _______,
+    _______, MSCLK,  MOUSE2, _______,
+    _______, BLANK, BLANK, _______,
+    _______, BLANK, BLANK, _______
   ),
   
   // editor shortcuts
-  [_EDIT] = simple_overlay_planck_layout(
-    TXTOPS1, BLANCK, 
-    TXTOPS2, CUSTOM, 
-    TXTOPS3, BLANCK
+  [_EDIT] = flex_planck_layout(
+    _______, TXTOPS1, BLANK, _______,
+    _______, TXTOPS2, CUSTOM, _______,
+    _______, TXTOPS3, BLANK, _______,
+    _______, BLANK,  BLANK, _______
   ),
