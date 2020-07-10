@@ -1,6 +1,7 @@
 #pragma once
 // --- keycode macro groups
-// inspired by https://github.com/noahfrederick/qmk-keymaps/blob/master/user/my.h
+// inspired by
+// https://github.com/noahfrederick/qmk-keymaps/blob/master/user/my.h
 // --- convenience
 // .--------------------.
 // | Mute |VolDwn|VolUp |
@@ -13,6 +14,11 @@
 #define MEDIA KC_MPRV, KC_MPLY, KC_MNXT
 
 // navigation
+// .----------------------------------.
+// | PgUp |      | Home |   ^  | End  |
+// |----------------------------------|
+// | PgDn | <    |  v   |   ^  |   >  |
+// '----------------------------------'
 #define NAV1 KC_PGUP, _______, KC_HOME, KC_UP, KC_END
 #define NAV2 KC_PGDN, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT
 
@@ -20,7 +26,8 @@
 // .----------------------------------.
 // |      |ScrlL |  ^   |ScrlR |ScrlUp|
 // |----------------------------------|
-// |      |  <-  |  ;   |  ->  |ScrlDw| // |----------------------------------|
+// |      |  <-  |  ;   |  ->  |ScrlDw|
+// |----------------------------------|
 // |      |      |      |      |      |
 // '----------------------------------'
 #define MOUSE1 _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U
@@ -28,9 +35,12 @@
 #define MOUSE3 _______, _______, _______, _______, _______
 
 // .----------------------------------.
+// |      | Clk4 |      | Clk5 |      |
+// .----------------------------------.
 // |      | LClk | CClk | RClk |      |
-// `----------------------------------'
-#define MSCLK _______, KC_BTN1, KC_BTN3, KC_BTN2, _______
+// '----------------------------------'
+#define MSCLK1 _______, KC_BTN4, _______, KC_BTN5, _______
+#define MSCLK2 _______, KC_BTN1, KC_BTN3, KC_BTN2, _______
 
 // modifiers
 // .----------------------------------.
@@ -47,8 +57,8 @@
 // |      |  F1  |  F2  |  F3  |  F10 |
 // '----------------------------------'
 #define FN1 _______, KC_F7, KC_F8, KC_F9, KC_F12
-#define FN2 _______, KC_F4, KC_F5, KC_F6, KC_F11 
-#define FN3 _______, KC_F1, KC_F2, KC_F3, KC_F10 
+#define FN2 _______, KC_F4, KC_F5, KC_F6, KC_F11
+#define FN3 _______, KC_F1, KC_F2, KC_F3, KC_F10
 
 // numpad
 // remember to define the location of KC_EQLS and KC_0 on the same layer
@@ -61,7 +71,7 @@
 // `----------------------------------'
 #define NUM1 KC_SLSH, KC_7, KC_8, KC_9, KC_ASTR
 #define NUM2 TD_DOT,  KC_4, KC_5, KC_6, KC_MINS
-#define NUM3 TD_COMM, KC_1, KC_2, KC_3, KC_PLUS  
+#define NUM3 TD_COMM, KC_1, KC_2, KC_3, KC_PLUS
 
 // brackets layer
 // backslash and del should probably be on this layer
@@ -89,10 +99,9 @@
 #define REGEX3 _______, KC_PLUS, KC_AT,   KC_BSLS, KC_EXLM
 
 // text operations
-//
 #define TXTOPS1 _______, _______, TMCOPY, TMPASTE, _______
-#define TXTOPS2 UNDO,    CUT,     COPY,   PASTE,   _______
-#define TXTOPS3 _______, NAK,     EOT,    _______, _______
+#define TXTOPS2 UNDO,    CUT,     COPY, PASTE,     _______
+#define TXTOPS3 _______, NAK,     EOT,  _______,   _______
 
 #define CUSTOM _______, _______, TD_PRIV, TD_SEND, _______
 

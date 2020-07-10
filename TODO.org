@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       e3041709-3e06-433c-b441-4b3ae87f1302
+:END:
+#+TITLE: Todo
+* DONE fix keymapping procedure to best minimize points of control
+CLOSED: [2020-07-09 Thu 19:50]
+* TODO enable leaving mouse layer
+currently it is unclear how the keyboard becomes stuck on the mouse layer
+and it seems that the toggle to exit the mouse layer is comprised. help get out of it
+* TODO fix caps bug
+the keyboard seems to get stuck with caps stuck on after some key on the base layer is pressed. root out the issue and fix this.

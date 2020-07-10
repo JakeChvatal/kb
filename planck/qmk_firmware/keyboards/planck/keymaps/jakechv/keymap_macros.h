@@ -11,7 +11,7 @@
       L1, BL1, BR1, R1, \
       L2, BL2, BR2, R2, \
       L3, BL3, BR3, R3, \
-      BL4, L4, R4,  BR4 \
+      L4, BL4, BR4, R4  \
     )
 
 #else
@@ -23,6 +23,6 @@
       BL1, L1, R1, BR1, \
       BL2, L2, R2, BR2, \
       BL3, L3, R3, BR3, \
-      L4, BL4, BR4, R4  \
+      BL4, L4, R4, BR4 \
     )
 #endif

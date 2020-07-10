@@ -44,9 +44,6 @@ enum keycodes {
  // 
  ,SP_DEL    // pseudo LT   (_MOUSE, KC_DEL)               for shifted key-codes, see process_record_user()
  ,SL_TAB    // pseudo LT   (_FNCKEY, S(KC_TAB))           for shifted key-codes, see process_record_user()
-#ifdef CENTER_TT
- ,TT_ESC
-#endif
  ,SL_PIPE
 #ifdef ROLLOVER
 #ifdef QWERTY
@@ -87,7 +84,7 @@ enum keycodes {
 // modifier keys
 #define GUI_ESC GUI_T(KC_ESC)
 
-// rollover definitions
+// non-rollover definitions
 #ifndef ROLLOVER
 #ifdef QWERTY
 #define HOME_A KC_A 
