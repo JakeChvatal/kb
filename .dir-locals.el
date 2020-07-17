@@ -1,1 +1,2 @@
-((nil . ((eval . (format-all-mode 0)))))
+((nil . ((electric-indent-mode . nil)
+         (format-all-mode . nil))))
