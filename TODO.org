@@ -9,3 +9,6 @@ currently it is unclear how the keyboard becomes stuck on the mouse layer
 and it seems that the toggle to exit the mouse layer is comprised. help get out of it
 * TODO fix caps bug
 the keyboard seems to get stuck with caps stuck on after some key on the base layer is pressed. root out the issue and fix this.
+* TODO actually get this to work
+after writing the firmware last time i literally couldn't use the keyboard
+not sure how i got it working again
