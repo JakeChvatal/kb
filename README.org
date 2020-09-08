@@ -1,9 +1,5 @@
 #+title: Configuration for Keyboards
 
-These configuration files are managed with GNU Stow;
-to build them, clone qmk firmware at the same top level directory,
-cd into this repo, then run ```stow planck``` for the planck keyboard.
-
 This configuration takes heavy inspiration from many of the existing
 qmk keymappings, most notably [[https://thedarnedestthing.com][sdothum's work]].
 
