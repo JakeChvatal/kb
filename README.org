@@ -5,7 +5,9 @@ qmk keymappings, most notably [[https://thedarnedestthing.com][sdothum's work]].
 
 For now, the only keyboard supported is the OLKB Plank,
 but there are plans to support other keyboards in the future, such as the
-Kyria and the Corne keyboards (which I have yet to build).
+Kyria and the Corne keyboards (which I have begun the slow process of building).
+
+(My choice here is the Corne over the Kyria).
 
 As such, keymappings are factored into modules (macro groups),
 and these modules are included in keymappings for specific keyboards.
