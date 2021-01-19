@@ -1,53 +1,39 @@
-#ifndef CONFIG_USER_H
-#define CONFIG_USER_H
+#pragma once
 
-// tap dance key press termination interval
-#define TAPPING_TERM 175
+#ifdef AUDIO_ENABLE
+    #define STARTUP_SONG SONG(PLANCK_SOUND)
+    // #define STARTUP_SONG SONG(NO_SOUND)
 
-// smooth mouse motion
-#define MOUSEKEY_INTERVAL 20
-#define MOUSEKEY_DELAY 0
-#define MOUSEKEY_TIME_TO_MAX 60
-#define MOUSEKEY_MAX_SPEED 7
-#define MOUSEKEY_WHEEL_DELAY 0
-
-// include private macro string defined in private_string.h
-// #define PRIVATE_STRING
-
-// compile time macro string, must be in quotes
-#define PUBLIC_STRING "jakechvatal@gmail.com"
-
-// thumb key tap-shift() double tap: one shot shift (0) off (1) on
-#define DT_SHIFT 1
-
-// home block shift symbol clusters defined (no overlays required for extended
-// symbols, undefine otherwise) #define SHIFT_SYMBOLS
-
-// center column TT assignments (undefine for OSM chords)
-#define CENTER_TT
-#define TAPPING_TOGGLE 1
-
-// home row modifiers
-#define HOME_MODS
-
-// fix dual function timing
-#define PERMISSIVE_HOLD
-#define IGNORE_MOD_TAP_INTERRUPT
-
-// double tap '=' behavior
-#define EQLEQL "=="
-
-/* define the keyboard layout to be used:
- * - QWERTY
- * - SOUL
- * - COLEMAK
- * are currently supported.
- */
-#define QWERTY
-
-// if defined, places mod keys in the center
-#define WIDE_LAYOUT
-
-// hold home row keys for mod keys
-#define ROLLOVER
+    #define DEFAULT_LAYER_SONGS { SONG(QWERTY_SOUND), \
+                                  SONG(COLEMAK_SOUND), \
+                                  SONG(DVORAK_SOUND) \
+                                }
 #endif
+
+/*
+ * MIDI options
+ */
+
+/* Prevent use of disabled MIDI features in the keymap */
+//#define MIDI_ENABLE_STRICT 1
+
+/* enable basic MIDI features:
+   - MIDI notes can be sent when in Music mode is on
+*/
+
+#define MIDI_BASIC
+
+/* enable advanced MIDI features:
+   - MIDI notes can be added to the keymap
+   - Octave shift and transpose
+   - Virtual sustain, portamento, and modulation wheel
+   - etc.
+*/
+//#define MIDI_ADVANCED
+
+/* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
+//#define MIDI_TONE_KEYCODE_OCTAVES 2
+
+// Most tactile encoders have detents every 4 stages
+#define ENCODER_RESOLUTION 4
+
