@@ -13,3 +13,6 @@ As such, keymappings are factored into modules (macro groups),
 and these modules are included in keymappings for specific keyboards.
 
 Better documentation is coming soon, pending a finalization of my layout.
+
+Remember to use `sudo` to rebuild - dfu-util doesn't have the privilege to
+see devices otherwise!
